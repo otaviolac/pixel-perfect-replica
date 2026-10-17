@@ -85,11 +85,11 @@ function CompetitionDialog({ current, onClose }: { current: any; onClose: () => 
 
   async function save(e: React.FormEvent) {
     e.preventDefault();
-    if (!name.trim() || !when) return toast.error("Informe nome e data/hora.");
+    if (!name.trim() || !when) { toast.error("Informe nome e data/hora."); return; }
     const { data: u } = await supabase.auth.getUser();
     if (current) await supabase.from("competition_dates").update({ archived_at: new Date().toISOString() }).eq("id", current.id);
-    const { error } = await supabase.from("competition_dates").insert({ name: name.trim(), starts_at: spLocalToISO(when), location: location.trim() || null, created_by: u.user?.id });
-    if (error) return toast.error("Não foi possível salvar.");
+    const { error } = await supabase.from("competition_dates").insert({ name: name.trim(), starts_at: spLocalToISO(when), location: location.trim() || null, created_by: u.user?.id ?? null });
+    if (error) { toast.error("Não foi possível salvar."); return; }
     toast.success("Competição atualizada.");
     qc.invalidateQueries({ queryKey: ["competition"] });
     onClose();

@@ -29,23 +29,23 @@ function Perfil() {
 
   async function save(e: React.FormEvent) {
     e.preventDefault();
-    if (form.full_name.trim().length < 2) return toast.error("Informe seu nome.");
+    if (form.full_name.trim().length < 2) { toast.error("Informe seu nome."); return; }
     const { error } = await supabase.from("profiles").update({
       full_name: form.full_name.trim().slice(0, 120),
       birth_date: form.birth_date || null, joined_at: form.joined_at || null,
       phone: form.phone.trim() || null, course: form.course.trim() || null,
     }).eq("id", me!.id);
-    if (error) return toast.error("Não foi possível salvar.");
+    if (error) { toast.error("Não foi possível salvar."); return; }
     toast.success("Perfil atualizado.");
     qc.invalidateQueries({ queryKey: ["me"] });
   }
 
   async function upload(f: File) {
-    if (!["image/jpeg", "image/png", "image/webp"].includes(f.type)) return toast.error("Use JPG, PNG ou WEBP.");
-    if (f.size > 5 * 1024 * 1024) return toast.error("Máximo de 5 MB.");
+    if (!["image/jpeg", "image/png", "image/webp"].includes(f.type)) { toast.error("Use JPG, PNG ou WEBP."); return; }
+    if (f.size > 5 * 1024 * 1024) { toast.error("Máximo de 5 MB."); return; }
     const path = `${me!.id}/foto-${Date.now()}.${f.type.split("/")[1]}`;
     const { error } = await supabase.storage.from("avatars").upload(path, f, { upsert: true, contentType: f.type });
-    if (error) return toast.error("Falha no envio da foto.");
+    if (error) { toast.error("Falha no envio da foto."); return; }
     await supabase.from("profiles").update({ photo_path: path }).eq("id", me!.id);
     qc.invalidateQueries({ queryKey: ["me"] });
     toast.success("Foto atualizada.");

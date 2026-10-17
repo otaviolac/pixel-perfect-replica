@@ -27,12 +27,12 @@ function ResetPage() {
 
   async function submit(e: React.FormEvent) {
     e.preventDefault();
-    if (pw.length < 8) return toast.error("A senha deve ter pelo menos 8 caracteres.");
-    if (pw !== pw2) return toast.error("As senhas não coincidem.");
+    if (pw.length < 8) { toast.error("A senha deve ter pelo menos 8 caracteres."); return; }
+    if (pw !== pw2) { toast.error("As senhas não coincidem."); return; }
     setBusy(true);
     const { error } = await supabase.auth.updateUser({ password: pw });
     setBusy(false);
-    if (error) return toast.error("Link inválido ou expirado. Solicite um novo.");
+    if (error) { toast.error("Link inválido ou expirado. Solicite um novo."); return; }
     toast.success("Senha definida.");
     navigate({ to: "/inicio" });
   }

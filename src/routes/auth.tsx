@@ -31,7 +31,7 @@ function AuthPage() {
     setBusy(true);
     const { error } = await supabase.auth.signInWithPassword({ email, password });
     setBusy(false);
-    if (error) return toast.error("E-mail ou senha incorretos.");
+    if (error) { toast.error("E-mail ou senha incorretos."); return; }
     navigate({ to: "/inicio" });
   }
 
