@@ -14,16 +14,271 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      admin_access_grants: {
+        Row: {
+          granted_at: string
+          granted_by: string | null
+          user_id: string
+        }
+        Insert: {
+          granted_at?: string
+          granted_by?: string | null
+          user_id: string
+        }
+        Update: {
+          granted_at?: string
+          granted_by?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      audit_log: {
+        Row: {
+          action: string
+          actor_id: string | null
+          area: string
+          created_at: string
+          details: Json | null
+          entity: string | null
+          entity_id: string | null
+          id: string
+        }
+        Insert: {
+          action: string
+          actor_id?: string | null
+          area?: string
+          created_at?: string
+          details?: Json | null
+          entity?: string | null
+          entity_id?: string | null
+          id?: string
+        }
+        Update: {
+          action?: string
+          actor_id?: string | null
+          area?: string
+          created_at?: string
+          details?: Json | null
+          entity?: string | null
+          entity_id?: string | null
+          id?: string
+        }
+        Relationships: []
+      }
+      competition_dates: {
+        Row: {
+          archived_at: string | null
+          created_at: string
+          created_by: string | null
+          id: string
+          location: string | null
+          name: string
+          starts_at: string
+        }
+        Insert: {
+          archived_at?: string | null
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          location?: string | null
+          name: string
+          starts_at: string
+        }
+        Update: {
+          archived_at?: string | null
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          location?: string | null
+          name?: string
+          starts_at?: string
+        }
+        Relationships: []
+      }
+      feature_flags: {
+        Row: {
+          enabled: boolean
+          key: string
+          label: string
+          updated_at: string
+          updated_by: string | null
+        }
+        Insert: {
+          enabled?: boolean
+          key: string
+          label: string
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Update: {
+          enabled?: boolean
+          key?: string
+          label?: string
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Relationships: []
+      }
+      memberships: {
+        Row: {
+          role: Database["public"]["Enums"]["operational_role"]
+          sector_id: number
+          updated_at: string
+          updated_by: string | null
+          user_id: string
+        }
+        Insert: {
+          role?: Database["public"]["Enums"]["operational_role"]
+          sector_id: number
+          updated_at?: string
+          updated_by?: string | null
+          user_id: string
+        }
+        Update: {
+          role?: Database["public"]["Enums"]["operational_role"]
+          sector_id?: number
+          updated_at?: string
+          updated_by?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "memberships_sector_id_fkey"
+            columns: ["sector_id"]
+            isOneToOne: false
+            referencedRelation: "sectors"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          active: boolean
+          birth_date: string | null
+          course: string | null
+          created_at: string
+          email: string
+          full_name: string
+          id: string
+          joined_at: string | null
+          phone: string | null
+          photo_path: string | null
+          updated_at: string
+        }
+        Insert: {
+          active?: boolean
+          birth_date?: string | null
+          course?: string | null
+          created_at?: string
+          email?: string
+          full_name?: string
+          id: string
+          joined_at?: string | null
+          phone?: string | null
+          photo_path?: string | null
+          updated_at?: string
+        }
+        Update: {
+          active?: boolean
+          birth_date?: string | null
+          course?: string | null
+          created_at?: string
+          email?: string
+          full_name?: string
+          id?: string
+          joined_at?: string | null
+          phone?: string | null
+          photo_path?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      role_change_history: {
+        Row: {
+          changed_at: string
+          changed_by: string | null
+          id: string
+          new_role: Database["public"]["Enums"]["operational_role"] | null
+          new_sector: number | null
+          old_role: Database["public"]["Enums"]["operational_role"] | null
+          old_sector: number | null
+          user_id: string
+          via_admin: boolean
+        }
+        Insert: {
+          changed_at?: string
+          changed_by?: string | null
+          id?: string
+          new_role?: Database["public"]["Enums"]["operational_role"] | null
+          new_sector?: number | null
+          old_role?: Database["public"]["Enums"]["operational_role"] | null
+          old_sector?: number | null
+          user_id: string
+          via_admin?: boolean
+        }
+        Update: {
+          changed_at?: string
+          changed_by?: string | null
+          id?: string
+          new_role?: Database["public"]["Enums"]["operational_role"] | null
+          new_sector?: number | null
+          old_role?: Database["public"]["Enums"]["operational_role"] | null
+          old_sector?: number | null
+          user_id?: string
+          via_admin?: boolean
+        }
+        Relationships: []
+      }
+      sectors: {
+        Row: {
+          id: number
+          name: string
+          slug: string
+        }
+        Insert: {
+          id: number
+          name: string
+          slug: string
+        }
+        Update: {
+          id?: number
+          name?: string
+          slug?: string
+        }
+        Relationships: []
+      }
+      team_settings: {
+        Row: {
+          id: boolean
+          logo_path: string | null
+          team_name: string
+          updated_at: string
+        }
+        Insert: {
+          id?: boolean
+          logo_path?: string | null
+          team_name?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: boolean
+          logo_path?: string | null
+          team_name?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      is_active_member: { Args: { _uid: string }; Returns: boolean }
+      is_admin: { Args: { _uid: string }; Returns: boolean }
+      is_captain: { Args: { _uid: string }; Returns: boolean }
     }
     Enums: {
-      [_ in never]: never
+      operational_role: "trainee" | "membro" | "gerente" | "capitao"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +405,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      operational_role: ["trainee", "membro", "gerente", "capitao"],
+    },
   },
 } as const
