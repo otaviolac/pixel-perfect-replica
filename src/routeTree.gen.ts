@@ -16,7 +16,12 @@ import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 import { Route as AuthenticatedInicioRouteImport } from './routes/_authenticated/inicio'
 import { Route as AuthenticatedIntegrantesRouteImport } from './routes/_authenticated/integrantes'
+import { Route as AuthenticatedNotificacoesRouteImport } from './routes/_authenticated/notificacoes'
 import { Route as AuthenticatedPerfilRouteImport } from './routes/_authenticated/perfil'
+import { Route as AuthenticatedSolicitacoesRouteImport } from './routes/_authenticated/solicitacoes'
+import { Route as AuthenticatedVoluntariasRouteImport } from './routes/_authenticated/voluntarias'
+import { Route as AuthenticatedTarefasIndexRouteImport } from './routes/_authenticated/tarefas.index'
+import { Route as AuthenticatedTarefasTaskIdRouteImport } from './routes/_authenticated/tarefas.$taskId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -53,11 +58,41 @@ const AuthenticatedIntegrantesRoute =
     path: '/integrantes',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedNotificacoesRoute =
+  AuthenticatedNotificacoesRouteImport.update({
+    id: '/notificacoes',
+    path: '/notificacoes',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedPerfilRoute = AuthenticatedPerfilRouteImport.update({
   id: '/perfil',
   path: '/perfil',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedSolicitacoesRoute =
+  AuthenticatedSolicitacoesRouteImport.update({
+    id: '/solicitacoes',
+    path: '/solicitacoes',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedVoluntariasRoute =
+  AuthenticatedVoluntariasRouteImport.update({
+    id: '/voluntarias',
+    path: '/voluntarias',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedTarefasIndexRoute =
+  AuthenticatedTarefasIndexRouteImport.update({
+    id: '/tarefas/',
+    path: '/tarefas/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedTarefasTaskIdRoute =
+  AuthenticatedTarefasTaskIdRouteImport.update({
+    id: '/tarefas/$taskId',
+    path: '/tarefas/$taskId',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -66,7 +101,12 @@ export interface FileRoutesByFullPath {
   '/admin': typeof AuthenticatedAdminRoute
   '/inicio': typeof AuthenticatedInicioRoute
   '/integrantes': typeof AuthenticatedIntegrantesRoute
+  '/notificacoes': typeof AuthenticatedNotificacoesRoute
   '/perfil': typeof AuthenticatedPerfilRoute
+  '/solicitacoes': typeof AuthenticatedSolicitacoesRoute
+  '/voluntarias': typeof AuthenticatedVoluntariasRoute
+  '/tarefas/$taskId': typeof AuthenticatedTarefasTaskIdRoute
+  '/tarefas/': typeof AuthenticatedTarefasIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -75,7 +115,12 @@ export interface FileRoutesByTo {
   '/admin': typeof AuthenticatedAdminRoute
   '/inicio': typeof AuthenticatedInicioRoute
   '/integrantes': typeof AuthenticatedIntegrantesRoute
+  '/notificacoes': typeof AuthenticatedNotificacoesRoute
   '/perfil': typeof AuthenticatedPerfilRoute
+  '/solicitacoes': typeof AuthenticatedSolicitacoesRoute
+  '/voluntarias': typeof AuthenticatedVoluntariasRoute
+  '/tarefas/$taskId': typeof AuthenticatedTarefasTaskIdRoute
+  '/tarefas': typeof AuthenticatedTarefasIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -86,7 +131,12 @@ export interface FileRoutesById {
   '/_authenticated/admin': typeof AuthenticatedAdminRoute
   '/_authenticated/inicio': typeof AuthenticatedInicioRoute
   '/_authenticated/integrantes': typeof AuthenticatedIntegrantesRoute
+  '/_authenticated/notificacoes': typeof AuthenticatedNotificacoesRoute
   '/_authenticated/perfil': typeof AuthenticatedPerfilRoute
+  '/_authenticated/solicitacoes': typeof AuthenticatedSolicitacoesRoute
+  '/_authenticated/voluntarias': typeof AuthenticatedVoluntariasRoute
+  '/_authenticated/tarefas/$taskId': typeof AuthenticatedTarefasTaskIdRoute
+  '/_authenticated/tarefas/': typeof AuthenticatedTarefasIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -97,7 +147,12 @@ export interface FileRouteTypes {
     | '/admin'
     | '/inicio'
     | '/integrantes'
+    | '/notificacoes'
     | '/perfil'
+    | '/solicitacoes'
+    | '/voluntarias'
+    | '/tarefas/$taskId'
+    | '/tarefas/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -106,7 +161,12 @@ export interface FileRouteTypes {
     | '/admin'
     | '/inicio'
     | '/integrantes'
+    | '/notificacoes'
     | '/perfil'
+    | '/solicitacoes'
+    | '/voluntarias'
+    | '/tarefas/$taskId'
+    | '/tarefas'
   id:
     | '__root__'
     | '/'
@@ -116,7 +176,12 @@ export interface FileRouteTypes {
     | '/_authenticated/admin'
     | '/_authenticated/inicio'
     | '/_authenticated/integrantes'
+    | '/_authenticated/notificacoes'
     | '/_authenticated/perfil'
+    | '/_authenticated/solicitacoes'
+    | '/_authenticated/voluntarias'
+    | '/_authenticated/tarefas/$taskId'
+    | '/_authenticated/tarefas/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -177,11 +242,46 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedIntegrantesRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/notificacoes': {
+      id: '/_authenticated/notificacoes'
+      path: '/notificacoes'
+      fullPath: '/notificacoes'
+      preLoaderRoute: typeof AuthenticatedNotificacoesRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/perfil': {
       id: '/_authenticated/perfil'
       path: '/perfil'
       fullPath: '/perfil'
       preLoaderRoute: typeof AuthenticatedPerfilRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/solicitacoes': {
+      id: '/_authenticated/solicitacoes'
+      path: '/solicitacoes'
+      fullPath: '/solicitacoes'
+      preLoaderRoute: typeof AuthenticatedSolicitacoesRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/voluntarias': {
+      id: '/_authenticated/voluntarias'
+      path: '/voluntarias'
+      fullPath: '/voluntarias'
+      preLoaderRoute: typeof AuthenticatedVoluntariasRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/tarefas/': {
+      id: '/_authenticated/tarefas/'
+      path: '/tarefas'
+      fullPath: '/tarefas/'
+      preLoaderRoute: typeof AuthenticatedTarefasIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/tarefas/$taskId': {
+      id: '/_authenticated/tarefas/$taskId'
+      path: '/tarefas/$taskId'
+      fullPath: '/tarefas/$taskId'
+      preLoaderRoute: typeof AuthenticatedTarefasTaskIdRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
   }
@@ -191,14 +291,24 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedAdminRoute: typeof AuthenticatedAdminRoute
   AuthenticatedInicioRoute: typeof AuthenticatedInicioRoute
   AuthenticatedIntegrantesRoute: typeof AuthenticatedIntegrantesRoute
+  AuthenticatedNotificacoesRoute: typeof AuthenticatedNotificacoesRoute
   AuthenticatedPerfilRoute: typeof AuthenticatedPerfilRoute
+  AuthenticatedSolicitacoesRoute: typeof AuthenticatedSolicitacoesRoute
+  AuthenticatedVoluntariasRoute: typeof AuthenticatedVoluntariasRoute
+  AuthenticatedTarefasTaskIdRoute: typeof AuthenticatedTarefasTaskIdRoute
+  AuthenticatedTarefasIndexRoute: typeof AuthenticatedTarefasIndexRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAdminRoute: AuthenticatedAdminRoute,
   AuthenticatedInicioRoute: AuthenticatedInicioRoute,
   AuthenticatedIntegrantesRoute: AuthenticatedIntegrantesRoute,
+  AuthenticatedNotificacoesRoute: AuthenticatedNotificacoesRoute,
   AuthenticatedPerfilRoute: AuthenticatedPerfilRoute,
+  AuthenticatedSolicitacoesRoute: AuthenticatedSolicitacoesRoute,
+  AuthenticatedVoluntariasRoute: AuthenticatedVoluntariasRoute,
+  AuthenticatedTarefasTaskIdRoute: AuthenticatedTarefasTaskIdRoute,
+  AuthenticatedTarefasIndexRoute: AuthenticatedTarefasIndexRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =

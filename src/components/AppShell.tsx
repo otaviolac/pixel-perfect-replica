@@ -1,7 +1,8 @@
 import { Link, Outlet, useNavigate } from "@tanstack/react-router";
-import { useQueryClient } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
-import { Home, Users, User, Shield, LogOut, Plane, Menu, X } from "lucide-react";
+import { Home, Users, User, Shield, LogOut, Plane, Menu, X, ListChecks, HeartHandshake, Inbox, Bell } from "lucide-react";
+import { flagsQuery, notificationsQuery } from '@/lib/tasks';
 import { supabase } from "@/integrations/supabase/client";
 import { useMe } from "@/lib/me";
 import { ROLE_LABEL } from "@/lib/format";
@@ -9,6 +10,10 @@ import { Button } from "@/components/ui/button";
 
 const NAV = [
   { to: "/inicio", label: "Início", icon: Home },
+  { to: "/tarefas", label: "Tarefas oficiais", icon: ListChecks },
+  { to: "/voluntarias", label: "Voluntárias", icon: HeartHandshake },
+  { to: "/solicitacoes", label: "Solicitações", icon: Inbox },
+  { to: "/notificacoes", label: "Notificações", icon: Bell },
   { to: "/integrantes", label: "Integrantes", icon: Users },
   { to: "/perfil", label: "Meu perfil", icon: User },
 ] as const;
@@ -18,6 +23,9 @@ export function AppShell() {
   const qc = useQueryClient();
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
+  const { data: flags = [] } = useQuery(flagsQuery);
+  const { data: notifications = [] } = useQuery(notificationsQuery);
+  const unread = notifications.filter(n => !n.read_at).length;
 
   async function signOut() {
     await qc.cancelQueries();
@@ -39,11 +47,11 @@ export function AppShell() {
 
   const nav = (
     <nav className="flex flex-1 flex-col gap-1">
-      {NAV.map(({ to, label, icon: Icon }) => (
+      {NAV.filter(n => n.to !== '/tarefas' && n.to !== '/voluntarias' || flags.some(f => f.key === (n.to === '/tarefas' ? 'tarefas' : 'voluntarias') && f.enabled)).map(({ to, label, icon: Icon }) => (
         <Link key={to} to={to} onClick={() => setOpen(false)}
           className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm text-sidebar-foreground/80 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
           activeProps={{ className: "bg-sidebar-accent text-sidebar-accent-foreground" }}>
-          <Icon className="h-4 w-4" /> {label}
+          <Icon className="h-4 w-4" /> {label}{to === '/notificacoes' && unread > 0 && <span className="ml-auto text-xs text-sidebar-primary">{unread}</span>}
         </Link>
       ))}
       {me.isAdmin && (

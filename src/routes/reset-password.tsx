@@ -14,6 +14,8 @@ export const Route = createFileRoute("/reset-password")({
       { name: "description", content: "Defina sua senha de acesso." },
       { property: "og:title", content: "Definir senha — App Aerodesign" },
       { property: "og:description", content: "Defina sua senha de acesso." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
   component: ResetPage,

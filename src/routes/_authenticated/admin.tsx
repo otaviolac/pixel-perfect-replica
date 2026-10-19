@@ -12,9 +12,10 @@ import { Switch } from "@/components/ui/switch";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { pageHead } from '@/lib/tasks';
 
 export const Route = createFileRoute("/_authenticated/admin")({
-  head: () => ({ meta: [{ title: "Administração — App Aerodesign" }, { name: "description", content: "Painel técnico de administração." }] }),
+  head: () => pageHead('Administração', 'Painel técnico de administração da equipe Aerodesign.'),
   component: Admin,
 });
 

@@ -8,6 +8,27 @@
       "when": 1792260466369,
       "tag": "0000_migration",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1792419505287,
+      "tag": "0001_operation_tasks",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1792419572679,
+      "tag": "0002_task_file_access",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1792419900688,
+      "tag": "0003_task_consistency_guards",
+      "breakpoints": true
     }
   ]
 }
