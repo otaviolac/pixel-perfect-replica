@@ -28,7 +28,7 @@ function TaskDetail() {
   const managed = !!me && canManageTask(me.role, me.sector_id, t.sector_id, data.collaborations.filter(c => c.status === 'accepted').map(c => c.sector_id), t.kind === 'voluntary' && t.owner_id === me.id);
   const executing = !!me && (participant ? participant.status !== 'consent' : t.whole_sector && t.sector_id === me.sector_id);
   const name = (id: string | null) => members.find(p => p.id === id)?.full_name || members.find(p => p.id === id)?.email || 'Integrante';
-  async function act(action: Parameters<typeof command>[0]['data']['action'], payload: Record<string, unknown> = {}) {
+  async function act(action: 'create' | 'edit' | 'status' | 'join' | 'leave' | 'consent' | 'decline' | 'convert' | 'invite' | 'decide' | 'assign' | 'item' | 'item_status' | 'dependency' | 'remove_dependency' | 'comment', payload: Record<string, unknown> = {}) {
     setBusy(true); try { await command({ data: { action, task: taskId, payload } }); await qc.invalidateQueries(); toast.success('Registro atualizado.'); return true; } catch (error) { toast.error(error instanceof Error ? error.message : 'Não foi possível concluir.'); return false; } finally { setBusy(false); }
   }
   async function upload(e: React.ChangeEvent<HTMLInputElement>) {
