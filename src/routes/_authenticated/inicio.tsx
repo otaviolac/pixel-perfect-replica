@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
@@ -11,9 +11,11 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { tasksQuery, flagsQuery, notificationsQuery, pageHead } from '@/lib/tasks';
+import { TASK_STATUS, type TaskStatus, deadlineState } from '@/lib/task-rules';
 
 export const Route = createFileRoute("/_authenticated/inicio")({
-  head: () => ({ meta: [{ title: "Início — App Aerodesign" }, { name: "description", content: "Resumo do integrante." }] }),
+  head: () => pageHead('Início', 'Tarefas, prazos e avisos do integrante da equipe Aerodesign.'),
   component: Inicio,
 });
 
@@ -28,6 +30,11 @@ function useCompetition() {
 function Inicio() {
   const { data: me } = useMe();
   const { data: comp } = useCompetition();
+  const { data: tasks = [] } = useQuery(tasksQuery);
+  const { data: flags = [] } = useQuery(flagsQuery);
+  const { data: notices = [] } = useQuery(notificationsQuery);
+  const { data: assignments = [] } = useQuery({ queryKey: ['my-assignments', me?.id], enabled: !!me, queryFn: async () => { if (!me) return []; const r = await supabase.from('task_participants').select('task_id').eq('user_id', me.id); return r.data ?? []; } });
+  const relevant = tasks.filter(t => flags.some(f => f.key === (t.kind === 'official' ? 'tarefas' : 'voluntarias') && f.enabled) && !['completed','cancelled'].includes(t.status) && (t.owner_id === me?.id || assignments.some(a => a.task_id === t.id) || (t.whole_sector && t.sector_id === me?.sector_id))).sort((a,b) => (a.due_at ?? '9999').localeCompare(b.due_at ?? '9999'));
   const [now, setNow] = useState(Date.now());
   const [edit, setEdit] = useState(false);
   useEffect(() => { const t = setInterval(() => setNow(Date.now()), 30_000); return () => clearInterval(t); }, []);
@@ -65,11 +72,15 @@ function Inicio() {
         )}
       </section>
 
-      <section className="rounded-2xl border bg-card p-6">
-        <h3 className="font-semibold">Seus módulos</h3>
-        <p className="mt-1 text-sm text-muted-foreground">
-          Tarefas, agenda, testes e demais módulos estão em construção e aparecerão aqui assim que estiverem prontos. Nenhum dado fictício é exibido.
-        </p>
+      <section className="space-y-3">
+        <div className="flex items-center justify-between"><h2 className="font-semibold">Minhas tarefas e prazos</h2><Link to="/tarefas" className="text-sm underline">Ver tarefas</Link></div>
+        {!relevant.length && <p className="border-y py-6 text-sm text-muted-foreground">Nenhuma tarefa em aberto para você.</p>}
+        {relevant.slice(0,5).map(t => <Link key={t.id} to="/tarefas/$taskId" params={{taskId:t.id}} className="block border-b py-3"><h3 className="break-words text-sm font-medium">{t.title}</h3><p className={`mt-1 text-xs ${deadlineState(t.due_at,t.status,now)==='overdue'?'text-destructive':'text-muted-foreground'}`}>{TASK_STATUS[t.status as TaskStatus]} · {t.due_at ? fmtDateTime(t.due_at) : 'Sem prazo'}{deadlineState(t.due_at,t.status,now)==='overdue' && ' · Atrasada'}</p></Link>)}
+      </section>
+      <section className="space-y-3">
+        <div className="flex items-center justify-between"><h2 className="font-semibold">Avisos recentes</h2><Link to="/notificacoes" className="text-sm underline">Ver notificações</Link></div>
+        {!notices.length && <p className="border-y py-6 text-sm text-muted-foreground">Nenhum aviso recente.</p>}
+        {notices.slice(0,3).map(n => <p key={n.id} className="border-b py-3 text-sm">{n.title}</p>)}
       </section>
 
       {edit && <CompetitionDialog current={comp ?? null} onClose={() => setEdit(false)} />}

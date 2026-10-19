@@ -8,9 +8,10 @@ import { ROLE_LABEL } from "@/lib/format";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { pageHead } from '@/lib/tasks';
 
 export const Route = createFileRoute("/_authenticated/perfil")({
-  head: () => ({ meta: [{ title: "Meu perfil — App Aerodesign" }, { name: "description", content: "Seus dados de integrante." }] }),
+  head: () => pageHead('Meu perfil', 'Dados pessoais do integrante da equipe Aerodesign.'),
   component: Perfil,
 });
 

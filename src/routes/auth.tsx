@@ -14,6 +14,8 @@ export const Route = createFileRoute("/auth")({
       { name: "description", content: "Acesso dos integrantes da equipe de Aerodesign." },
       { property: "og:title", content: "Entrar — App Aerodesign" },
       { property: "og:description", content: "Acesso dos integrantes da equipe de Aerodesign." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
   component: AuthPage,

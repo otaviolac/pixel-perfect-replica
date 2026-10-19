@@ -4,7 +4,7 @@ import type { Tables } from '@/integrations/supabase/types';
 
 export type Task = Tables<'tasks'>;
 export const flagsQuery = queryOptions({ queryKey: ['flags'], queryFn: async () => {
-  const { data, error } = await supabase.from('feature_flags').select('key,enabled');
+  const { data, error } = await supabase.from('feature_flags').select('*').order('label');
   if (error) throw error;
   return data ?? [];
 }});
