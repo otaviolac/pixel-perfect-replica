@@ -36,6 +36,13 @@
       "when": 1792420238269,
       "tag": "0004_team_agenda_events_meetings",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1792420518646,
+      "tag": "0005_agenda_invited_manager_read",
+      "breakpoints": true
     }
   ]
 }
