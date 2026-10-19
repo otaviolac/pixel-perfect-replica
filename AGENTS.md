@@ -19,3 +19,6 @@
 - Task mutations use an authenticated server function calling the transactional task_command RPC; row locks enforce capacity and shared-sector authority without administrative bypass.
 - Task reads use RLS-scoped Query options and leaf route loaders; dependencies, participants, collaboration decisions and execution history remain separate records to preserve auditability.
 - Task files live in private task-files storage with task-ID paths and database-validated read/write authority, so attachments follow the same operational permissions.
+- Agenda mutations use an authenticated server function calling agenda_command; database authorization, row locks and audit records enforce operational roles without administrative bypass.
+- Agenda events, individual invitations/responses, history and private minutes attachments are separate records; recurring meetings materialize distinct occurrences so decisions and responses stay per-event.
+- Agenda reads use RLS-scoped Query options under authenticated routes; pending proposals send information only and cannot accept participation responses before approval.

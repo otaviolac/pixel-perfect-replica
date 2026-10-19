@@ -29,6 +29,13 @@
       "when": 1792419900688,
       "tag": "0003_task_consistency_guards",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1792420238269,
+      "tag": "0004_team_agenda_events_meetings",
+      "breakpoints": true
     }
   ]
 }

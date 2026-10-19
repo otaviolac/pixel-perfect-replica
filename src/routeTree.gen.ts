@@ -20,6 +20,8 @@ import { Route as AuthenticatedNotificacoesRouteImport } from './routes/_authent
 import { Route as AuthenticatedPerfilRouteImport } from './routes/_authenticated/perfil'
 import { Route as AuthenticatedSolicitacoesRouteImport } from './routes/_authenticated/solicitacoes'
 import { Route as AuthenticatedVoluntariasRouteImport } from './routes/_authenticated/voluntarias'
+import { Route as AuthenticatedAgendaIndexRouteImport } from './routes/_authenticated/agenda.index'
+import { Route as AuthenticatedAgendaEventIdRouteImport } from './routes/_authenticated/agenda.$eventId'
 import { Route as AuthenticatedTarefasIndexRouteImport } from './routes/_authenticated/tarefas.index'
 import { Route as AuthenticatedTarefasTaskIdRouteImport } from './routes/_authenticated/tarefas.$taskId'
 
@@ -81,6 +83,18 @@ const AuthenticatedVoluntariasRoute =
     path: '/voluntarias',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedAgendaIndexRoute =
+  AuthenticatedAgendaIndexRouteImport.update({
+    id: '/agenda/',
+    path: '/agenda/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedAgendaEventIdRoute =
+  AuthenticatedAgendaEventIdRouteImport.update({
+    id: '/agenda/$eventId',
+    path: '/agenda/$eventId',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedTarefasIndexRoute =
   AuthenticatedTarefasIndexRouteImport.update({
     id: '/tarefas/',
@@ -105,7 +119,9 @@ export interface FileRoutesByFullPath {
   '/perfil': typeof AuthenticatedPerfilRoute
   '/solicitacoes': typeof AuthenticatedSolicitacoesRoute
   '/voluntarias': typeof AuthenticatedVoluntariasRoute
+  '/agenda/$eventId': typeof AuthenticatedAgendaEventIdRoute
   '/tarefas/$taskId': typeof AuthenticatedTarefasTaskIdRoute
+  '/agenda/': typeof AuthenticatedAgendaIndexRoute
   '/tarefas/': typeof AuthenticatedTarefasIndexRoute
 }
 export interface FileRoutesByTo {
@@ -119,7 +135,9 @@ export interface FileRoutesByTo {
   '/perfil': typeof AuthenticatedPerfilRoute
   '/solicitacoes': typeof AuthenticatedSolicitacoesRoute
   '/voluntarias': typeof AuthenticatedVoluntariasRoute
+  '/agenda/$eventId': typeof AuthenticatedAgendaEventIdRoute
   '/tarefas/$taskId': typeof AuthenticatedTarefasTaskIdRoute
+  '/agenda': typeof AuthenticatedAgendaIndexRoute
   '/tarefas': typeof AuthenticatedTarefasIndexRoute
 }
 export interface FileRoutesById {
@@ -135,7 +153,9 @@ export interface FileRoutesById {
   '/_authenticated/perfil': typeof AuthenticatedPerfilRoute
   '/_authenticated/solicitacoes': typeof AuthenticatedSolicitacoesRoute
   '/_authenticated/voluntarias': typeof AuthenticatedVoluntariasRoute
+  '/_authenticated/agenda/$eventId': typeof AuthenticatedAgendaEventIdRoute
   '/_authenticated/tarefas/$taskId': typeof AuthenticatedTarefasTaskIdRoute
+  '/_authenticated/agenda/': typeof AuthenticatedAgendaIndexRoute
   '/_authenticated/tarefas/': typeof AuthenticatedTarefasIndexRoute
 }
 export interface FileRouteTypes {
@@ -151,7 +171,9 @@ export interface FileRouteTypes {
     | '/perfil'
     | '/solicitacoes'
     | '/voluntarias'
+    | '/agenda/$eventId'
     | '/tarefas/$taskId'
+    | '/agenda/'
     | '/tarefas/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -165,7 +187,9 @@ export interface FileRouteTypes {
     | '/perfil'
     | '/solicitacoes'
     | '/voluntarias'
+    | '/agenda/$eventId'
     | '/tarefas/$taskId'
+    | '/agenda'
     | '/tarefas'
   id:
     | '__root__'
@@ -180,7 +204,9 @@ export interface FileRouteTypes {
     | '/_authenticated/perfil'
     | '/_authenticated/solicitacoes'
     | '/_authenticated/voluntarias'
+    | '/_authenticated/agenda/$eventId'
     | '/_authenticated/tarefas/$taskId'
+    | '/_authenticated/agenda/'
     | '/_authenticated/tarefas/'
   fileRoutesById: FileRoutesById
 }
@@ -270,6 +296,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedVoluntariasRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/agenda/': {
+      id: '/_authenticated/agenda/'
+      path: '/agenda'
+      fullPath: '/agenda/'
+      preLoaderRoute: typeof AuthenticatedAgendaIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/agenda/$eventId': {
+      id: '/_authenticated/agenda/$eventId'
+      path: '/agenda/$eventId'
+      fullPath: '/agenda/$eventId'
+      preLoaderRoute: typeof AuthenticatedAgendaEventIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/tarefas/': {
       id: '/_authenticated/tarefas/'
       path: '/tarefas'
@@ -295,7 +335,9 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedPerfilRoute: typeof AuthenticatedPerfilRoute
   AuthenticatedSolicitacoesRoute: typeof AuthenticatedSolicitacoesRoute
   AuthenticatedVoluntariasRoute: typeof AuthenticatedVoluntariasRoute
+  AuthenticatedAgendaEventIdRoute: typeof AuthenticatedAgendaEventIdRoute
   AuthenticatedTarefasTaskIdRoute: typeof AuthenticatedTarefasTaskIdRoute
+  AuthenticatedAgendaIndexRoute: typeof AuthenticatedAgendaIndexRoute
   AuthenticatedTarefasIndexRoute: typeof AuthenticatedTarefasIndexRoute
 }
 
@@ -307,7 +349,9 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedPerfilRoute: AuthenticatedPerfilRoute,
   AuthenticatedSolicitacoesRoute: AuthenticatedSolicitacoesRoute,
   AuthenticatedVoluntariasRoute: AuthenticatedVoluntariasRoute,
+  AuthenticatedAgendaEventIdRoute: AuthenticatedAgendaEventIdRoute,
   AuthenticatedTarefasTaskIdRoute: AuthenticatedTarefasTaskIdRoute,
+  AuthenticatedAgendaIndexRoute: AuthenticatedAgendaIndexRoute,
   AuthenticatedTarefasIndexRoute: AuthenticatedTarefasIndexRoute,
 }
 

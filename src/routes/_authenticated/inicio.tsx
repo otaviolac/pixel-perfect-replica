@@ -13,6 +13,8 @@ import { Label } from "@/components/ui/label";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { tasksQuery, flagsQuery, notificationsQuery, pageHead } from '@/lib/tasks';
 import { TASK_STATUS, type TaskStatus, deadlineState } from '@/lib/task-rules';
+import { agendaQuery } from '@/lib/agenda';
+import { EVENT_STATUS } from '@/lib/agenda-rules';
 
 export const Route = createFileRoute("/_authenticated/inicio")({
   head: () => pageHead('Início', 'Tarefas, prazos e avisos do integrante da equipe Aerodesign.'),
@@ -33,12 +35,14 @@ function Inicio() {
   const { data: tasks = [] } = useQuery(tasksQuery);
   const { data: flags = [] } = useQuery(flagsQuery);
   const { data: notices = [] } = useQuery(notificationsQuery);
+  const { data: calendar } = useQuery(agendaQuery);
   const { data: assignments = [] } = useQuery({ queryKey: ['my-assignments', me?.id], enabled: !!me, queryFn: async () => { if (!me) return []; const r = await supabase.from('task_participants').select('task_id').eq('user_id', me.id); return r.data ?? []; } });
   const relevant = tasks.filter(t => flags.some(f => f.key === (t.kind === 'official' ? 'tarefas' : 'voluntarias') && f.enabled) && !['completed','cancelled'].includes(t.status) && (t.owner_id === me?.id || assignments.some(a => a.task_id === t.id) || (t.whole_sector && t.sector_id === me?.sector_id))).sort((a,b) => (a.due_at ?? '9999').localeCompare(b.due_at ?? '9999'));
   const [now, setNow] = useState(Date.now());
   const [edit, setEdit] = useState(false);
   useEffect(() => { const t = setInterval(() => setNow(Date.now()), 30_000); return () => clearInterval(t); }, []);
   const cd = comp ? countdown(comp.starts_at, now) : null;
+  const upcoming = (calendar?.events ?? []).filter(e => flags.some(f => f.key === 'agenda' && f.enabled) && (e.kind !== 'meeting' || flags.some(f => f.key === 'reunioes' && f.enabled)) && !e.archived_at && ['pending','scheduled'].includes(e.status) && new Date(e.ends_at).getTime() >= now && (e.organizer_id === me?.id || e.created_by === me?.id || calendar?.invitees.some(i => i.event_id === e.id && i.user_id === me?.id))).slice(0,5);
 
   return (
     <div className="space-y-6">
@@ -76,6 +80,11 @@ function Inicio() {
         <div className="flex items-center justify-between"><h2 className="font-semibold">Minhas tarefas e prazos</h2><Link to="/tarefas" className="text-sm underline">Ver tarefas</Link></div>
         {!relevant.length && <p className="border-y py-6 text-sm text-muted-foreground">Nenhuma tarefa em aberto para você.</p>}
         {relevant.slice(0,5).map(t => <Link key={t.id} to="/tarefas/$taskId" params={{taskId:t.id}} className="block border-b py-3"><h3 className="break-words text-sm font-medium">{t.title}</h3><p className={`mt-1 text-xs ${deadlineState(t.due_at,t.status,now)==='overdue'?'text-destructive':'text-muted-foreground'}`}>{TASK_STATUS[t.status as TaskStatus]} · {t.due_at ? fmtDateTime(t.due_at) : 'Sem prazo'}{deadlineState(t.due_at,t.status,now)==='overdue' && ' · Atrasada'}</p></Link>)}
+      </section>
+      <section className="space-y-3">
+        <div className="flex items-center justify-between gap-3"><h2 className="font-semibold">Próximos eventos e reuniões</h2><Link to="/agenda" className="shrink-0 text-sm underline">Ver agenda</Link></div>
+        {!upcoming.length && <p className="border-y py-6 text-sm text-muted-foreground">Nenhum evento previsto para você.</p>}
+        {upcoming.map(e => <Link key={e.id} to="/agenda/$eventId" params={{eventId:e.id}} className="block border-b py-3"><h3 className="break-words text-sm font-medium">{e.title}</h3><p className="mt-1 break-words text-xs text-muted-foreground">{fmtDateTime(e.starts_at)} · {e.location} · {EVENT_STATUS[e.status]}</p></Link>)}
       </section>
       <section className="space-y-3">
         <div className="flex items-center justify-between"><h2 className="font-semibold">Avisos recentes</h2><Link to="/notificacoes" className="text-sm underline">Ver notificações</Link></div>
