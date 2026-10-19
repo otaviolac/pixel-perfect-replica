@@ -32,6 +32,214 @@ export type Database = {
         }
         Relationships: []
       }
+      agenda_events: {
+        Row: {
+          agenda: string
+          archived_at: string | null
+          created_at: string
+          created_by: string
+          ends_at: string
+          id: string
+          kind: string
+          location: string
+          minutes: string
+          organizer_id: string
+          recurrence: string
+          sector_id: number
+          series_id: string | null
+          starts_at: string
+          status: string
+          team_wide: boolean
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          agenda?: string
+          archived_at?: string | null
+          created_at?: string
+          created_by: string
+          ends_at: string
+          id?: string
+          kind: string
+          location: string
+          minutes?: string
+          organizer_id: string
+          recurrence?: string
+          sector_id: number
+          series_id?: string | null
+          starts_at: string
+          status?: string
+          team_wide?: boolean
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          agenda?: string
+          archived_at?: string | null
+          created_at?: string
+          created_by?: string
+          ends_at?: string
+          id?: string
+          kind?: string
+          location?: string
+          minutes?: string
+          organizer_id?: string
+          recurrence?: string
+          sector_id?: number
+          series_id?: string | null
+          starts_at?: string
+          status?: string
+          team_wide?: boolean
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "agenda_events_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "agenda_events_organizer_id_fkey"
+            columns: ["organizer_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "agenda_events_sector_id_fkey"
+            columns: ["sector_id"]
+            isOneToOne: false
+            referencedRelation: "sectors"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      agenda_files: {
+        Row: {
+          created_at: string
+          event_id: string
+          id: string
+          name: string
+          path: string
+          uploaded_by: string
+        }
+        Insert: {
+          created_at?: string
+          event_id: string
+          id?: string
+          name: string
+          path: string
+          uploaded_by: string
+        }
+        Update: {
+          created_at?: string
+          event_id?: string
+          id?: string
+          name?: string
+          path?: string
+          uploaded_by?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "agenda_files_event_id_fkey"
+            columns: ["event_id"]
+            isOneToOne: false
+            referencedRelation: "agenda_events"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "agenda_files_uploaded_by_fkey"
+            columns: ["uploaded_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      agenda_history: {
+        Row: {
+          action: string
+          actor_id: string
+          created_at: string
+          details: Json
+          event_id: string
+          id: string
+        }
+        Insert: {
+          action: string
+          actor_id: string
+          created_at?: string
+          details?: Json
+          event_id: string
+          id?: string
+        }
+        Update: {
+          action?: string
+          actor_id?: string
+          created_at?: string
+          details?: Json
+          event_id?: string
+          id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "agenda_history_actor_id_fkey"
+            columns: ["actor_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "agenda_history_event_id_fkey"
+            columns: ["event_id"]
+            isOneToOne: false
+            referencedRelation: "agenda_events"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      agenda_invitees: {
+        Row: {
+          event_id: string
+          kind: string
+          responded_at: string | null
+          response: string
+          user_id: string
+        }
+        Insert: {
+          event_id: string
+          kind?: string
+          responded_at?: string | null
+          response?: string
+          user_id: string
+        }
+        Update: {
+          event_id?: string
+          kind?: string
+          responded_at?: string | null
+          response?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "agenda_invitees_event_id_fkey"
+            columns: ["event_id"]
+            isOneToOne: false
+            referencedRelation: "agenda_events"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "agenda_invitees_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       audit_log: {
         Row: {
           action: string
@@ -155,6 +363,7 @@ export type Database = {
         Row: {
           body: string
           created_at: string
+          event_id: string | null
           id: string
           read_at: string | null
           task_id: string | null
@@ -164,6 +373,7 @@ export type Database = {
         Insert: {
           body?: string
           created_at?: string
+          event_id?: string | null
           id?: string
           read_at?: string | null
           task_id?: string | null
@@ -173,6 +383,7 @@ export type Database = {
         Update: {
           body?: string
           created_at?: string
+          event_id?: string | null
           id?: string
           read_at?: string | null
           task_id?: string | null
@@ -180,6 +391,13 @@ export type Database = {
           user_id?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "notifications_event_id_fkey"
+            columns: ["event_id"]
+            isOneToOne: false
+            referencedRelation: "agenda_events"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "notifications_task_id_fkey"
             columns: ["task_id"]
@@ -657,6 +875,22 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      agenda_command: {
+        Args: { _action: string; _data?: Json; _event?: string }
+        Returns: string
+      }
+      agenda_file_access: {
+        Args: { _name: string; _uid: string; _write?: boolean }
+        Returns: boolean
+      }
+      agenda_manage: {
+        Args: { _event: string; _uid: string }
+        Returns: boolean
+      }
+      agenda_visible: {
+        Args: { _event: string; _uid: string }
+        Returns: boolean
+      }
       is_active_member: { Args: { _uid: string }; Returns: boolean }
       is_admin: { Args: { _uid: string }; Returns: boolean }
       is_captain: { Args: { _uid: string }; Returns: boolean }
