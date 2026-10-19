@@ -665,6 +665,10 @@ export type Database = {
         Returns: string
       }
       task_execute: { Args: { _task: string; _uid: string }; Returns: boolean }
+      task_file_access: {
+        Args: { _name: string; _uid: string; _write: boolean }
+        Returns: boolean
+      }
       task_manage: { Args: { _task: string; _uid: string }; Returns: boolean }
       task_visible: { Args: { _task: string; _uid: string }; Returns: boolean }
     }
