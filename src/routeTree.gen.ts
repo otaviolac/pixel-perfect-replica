@@ -17,6 +17,8 @@ import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/
 import { Route as AuthenticatedInicioRouteImport } from './routes/_authenticated/inicio'
 import { Route as AuthenticatedIntegrantesRouteImport } from './routes/_authenticated/integrantes'
 import { Route as AuthenticatedPerfilRouteImport } from './routes/_authenticated/perfil'
+import { Route as AuthenticatedVoluntariasRouteImport } from './routes/_authenticated/voluntarias'
+import { Route as AuthenticatedTarefasIndexRouteImport } from './routes/_authenticated/tarefas.index'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -58,6 +60,18 @@ const AuthenticatedPerfilRoute = AuthenticatedPerfilRouteImport.update({
   path: '/perfil',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedVoluntariasRoute =
+  AuthenticatedVoluntariasRouteImport.update({
+    id: '/voluntarias',
+    path: '/voluntarias',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedTarefasIndexRoute =
+  AuthenticatedTarefasIndexRouteImport.update({
+    id: '/tarefas/',
+    path: '/tarefas/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -67,6 +81,8 @@ export interface FileRoutesByFullPath {
   '/inicio': typeof AuthenticatedInicioRoute
   '/integrantes': typeof AuthenticatedIntegrantesRoute
   '/perfil': typeof AuthenticatedPerfilRoute
+  '/voluntarias': typeof AuthenticatedVoluntariasRoute
+  '/tarefas/': typeof AuthenticatedTarefasIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -76,6 +92,8 @@ export interface FileRoutesByTo {
   '/inicio': typeof AuthenticatedInicioRoute
   '/integrantes': typeof AuthenticatedIntegrantesRoute
   '/perfil': typeof AuthenticatedPerfilRoute
+  '/voluntarias': typeof AuthenticatedVoluntariasRoute
+  '/tarefas': typeof AuthenticatedTarefasIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -87,6 +105,8 @@ export interface FileRoutesById {
   '/_authenticated/inicio': typeof AuthenticatedInicioRoute
   '/_authenticated/integrantes': typeof AuthenticatedIntegrantesRoute
   '/_authenticated/perfil': typeof AuthenticatedPerfilRoute
+  '/_authenticated/voluntarias': typeof AuthenticatedVoluntariasRoute
+  '/_authenticated/tarefas/': typeof AuthenticatedTarefasIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -98,6 +118,8 @@ export interface FileRouteTypes {
     | '/inicio'
     | '/integrantes'
     | '/perfil'
+    | '/voluntarias'
+    | '/tarefas/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -107,6 +129,8 @@ export interface FileRouteTypes {
     | '/inicio'
     | '/integrantes'
     | '/perfil'
+    | '/voluntarias'
+    | '/tarefas'
   id:
     | '__root__'
     | '/'
@@ -117,6 +141,8 @@ export interface FileRouteTypes {
     | '/_authenticated/inicio'
     | '/_authenticated/integrantes'
     | '/_authenticated/perfil'
+    | '/_authenticated/voluntarias'
+    | '/_authenticated/tarefas/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -184,6 +210,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedPerfilRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/voluntarias': {
+      id: '/_authenticated/voluntarias'
+      path: '/voluntarias'
+      fullPath: '/voluntarias'
+      preLoaderRoute: typeof AuthenticatedVoluntariasRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/tarefas/': {
+      id: '/_authenticated/tarefas/'
+      path: '/tarefas'
+      fullPath: '/tarefas/'
+      preLoaderRoute: typeof AuthenticatedTarefasIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
 
@@ -192,6 +232,8 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedInicioRoute: typeof AuthenticatedInicioRoute
   AuthenticatedIntegrantesRoute: typeof AuthenticatedIntegrantesRoute
   AuthenticatedPerfilRoute: typeof AuthenticatedPerfilRoute
+  AuthenticatedVoluntariasRoute: typeof AuthenticatedVoluntariasRoute
+  AuthenticatedTarefasIndexRoute: typeof AuthenticatedTarefasIndexRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
@@ -199,6 +241,8 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedInicioRoute: AuthenticatedInicioRoute,
   AuthenticatedIntegrantesRoute: AuthenticatedIntegrantesRoute,
   AuthenticatedPerfilRoute: AuthenticatedPerfilRoute,
+  AuthenticatedVoluntariasRoute: AuthenticatedVoluntariasRoute,
+  AuthenticatedTarefasIndexRoute: AuthenticatedTarefasIndexRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =

@@ -16,3 +16,6 @@
 - Cadastro público desativado; contas entram só por convite. O primeiro admin é concedido por inserção direta em `admin_access_grants` feita pelo dono do projeto (sem senha mestra).
 - Datas: instantes em UTC, exibição em America/Sao_Paulo via `src/lib/format.ts`.
 - Regras puras de permissão em `src/lib/permissions.ts`, testadas em `src/test/`.
+- Task mutations use an authenticated server function calling the transactional task_command RPC; row locks enforce capacity and shared-sector authority without administrative bypass.
+- Task reads use RLS-scoped Query options and leaf route loaders; dependencies, participants, collaboration decisions and execution history remain separate records to preserve auditability.
+- Task files live in private task-files storage with task-ID paths and database-validated read/write authority, so attachments follow the same operational permissions.
