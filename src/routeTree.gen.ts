@@ -14,6 +14,7 @@ import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
+import { Route as AuthenticatedAssiduidadeRouteImport } from './routes/_authenticated/assiduidade'
 import { Route as AuthenticatedInicioRouteImport } from './routes/_authenticated/inicio'
 import { Route as AuthenticatedIntegrantesRouteImport } from './routes/_authenticated/integrantes'
 import { Route as AuthenticatedNotificacoesRouteImport } from './routes/_authenticated/notificacoes'
@@ -49,6 +50,12 @@ const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
   path: '/admin',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedAssiduidadeRoute =
+  AuthenticatedAssiduidadeRouteImport.update({
+    id: '/assiduidade',
+    path: '/assiduidade',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedInicioRoute = AuthenticatedInicioRouteImport.update({
   id: '/inicio',
   path: '/inicio',
@@ -113,6 +120,7 @@ export interface FileRoutesByFullPath {
   '/auth': typeof AuthRoute
   '/reset-password': typeof ResetPasswordRoute
   '/admin': typeof AuthenticatedAdminRoute
+  '/assiduidade': typeof AuthenticatedAssiduidadeRoute
   '/inicio': typeof AuthenticatedInicioRoute
   '/integrantes': typeof AuthenticatedIntegrantesRoute
   '/notificacoes': typeof AuthenticatedNotificacoesRoute
@@ -129,6 +137,7 @@ export interface FileRoutesByTo {
   '/auth': typeof AuthRoute
   '/reset-password': typeof ResetPasswordRoute
   '/admin': typeof AuthenticatedAdminRoute
+  '/assiduidade': typeof AuthenticatedAssiduidadeRoute
   '/inicio': typeof AuthenticatedInicioRoute
   '/integrantes': typeof AuthenticatedIntegrantesRoute
   '/notificacoes': typeof AuthenticatedNotificacoesRoute
@@ -147,6 +156,7 @@ export interface FileRoutesById {
   '/auth': typeof AuthRoute
   '/reset-password': typeof ResetPasswordRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRoute
+  '/_authenticated/assiduidade': typeof AuthenticatedAssiduidadeRoute
   '/_authenticated/inicio': typeof AuthenticatedInicioRoute
   '/_authenticated/integrantes': typeof AuthenticatedIntegrantesRoute
   '/_authenticated/notificacoes': typeof AuthenticatedNotificacoesRoute
@@ -165,6 +175,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/reset-password'
     | '/admin'
+    | '/assiduidade'
     | '/inicio'
     | '/integrantes'
     | '/notificacoes'
@@ -181,6 +192,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/reset-password'
     | '/admin'
+    | '/assiduidade'
     | '/inicio'
     | '/integrantes'
     | '/notificacoes'
@@ -198,6 +210,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/reset-password'
     | '/_authenticated/admin'
+    | '/_authenticated/assiduidade'
     | '/_authenticated/inicio'
     | '/_authenticated/integrantes'
     | '/_authenticated/notificacoes'
@@ -252,6 +265,13 @@ declare module '@tanstack/react-router' {
       path: '/admin'
       fullPath: '/admin'
       preLoaderRoute: typeof AuthenticatedAdminRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/assiduidade': {
+      id: '/_authenticated/assiduidade'
+      path: '/assiduidade'
+      fullPath: '/assiduidade'
+      preLoaderRoute: typeof AuthenticatedAssiduidadeRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/inicio': {
@@ -329,6 +349,7 @@ declare module '@tanstack/react-router' {
 
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedAdminRoute: typeof AuthenticatedAdminRoute
+  AuthenticatedAssiduidadeRoute: typeof AuthenticatedAssiduidadeRoute
   AuthenticatedInicioRoute: typeof AuthenticatedInicioRoute
   AuthenticatedIntegrantesRoute: typeof AuthenticatedIntegrantesRoute
   AuthenticatedNotificacoesRoute: typeof AuthenticatedNotificacoesRoute
@@ -343,6 +364,7 @@ interface AuthenticatedRouteRouteChildren {
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAdminRoute: AuthenticatedAdminRoute,
+  AuthenticatedAssiduidadeRoute: AuthenticatedAssiduidadeRoute,
   AuthenticatedInicioRoute: AuthenticatedInicioRoute,
   AuthenticatedIntegrantesRoute: AuthenticatedIntegrantesRoute,
   AuthenticatedNotificacoesRoute: AuthenticatedNotificacoesRoute,
