@@ -22,3 +22,5 @@
 - Agenda mutations use an authenticated server function calling agenda_command; database authorization, row locks and audit records enforce operational roles without administrative bypass.
 - Agenda events, individual invitations/responses, history and private minutes attachments are separate records; recurring meetings materialize distinct occurrences so decisions and responses stay per-event.
 - Agenda reads use RLS-scoped Query options under authenticated routes; pending proposals send information only and cannot accept participation responses before approval.
+- Attendance changes use an authenticated attendance_command RPC with event locks and operational authorization; current records and private per-person history remain separate from invitation responses.
+- Attendance summaries use RLS-scoped records and count only enabled, actual convocations with present or absent status; disabling a call never deletes its records.

@@ -1,7 +1,7 @@
 import { Link, Outlet, useNavigate } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
-import { Home, Users, User, Shield, LogOut, Plane, Menu, X, ListChecks, HeartHandshake, Inbox, Bell, CalendarDays } from "lucide-react";
+import { Home, Users, User, Shield, LogOut, Plane, Menu, X, ListChecks, HeartHandshake, Inbox, Bell, CalendarDays, ClipboardCheck } from "lucide-react";
 import { flagsQuery, notificationsQuery } from '@/lib/tasks';
 import { supabase } from "@/integrations/supabase/client";
 import { useMe } from "@/lib/me";
@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/button";
 const NAV = [
   { to: "/inicio", label: "Início", icon: Home },
   { to: "/agenda", label: "Agenda da equipe", icon: CalendarDays },
+  { to: "/assiduidade", label: "Assiduidade", icon: ClipboardCheck },
   { to: "/tarefas", label: "Tarefas oficiais", icon: ListChecks },
   { to: "/voluntarias", label: "Voluntárias", icon: HeartHandshake },
   { to: "/solicitacoes", label: "Solicitações", icon: Inbox },
