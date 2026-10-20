@@ -32,10 +32,115 @@ export type Database = {
         }
         Relationships: []
       }
+      agenda_attendance: {
+        Row: {
+          event_id: string
+          note: string
+          recorded_by: string
+          status: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          event_id: string
+          note?: string
+          recorded_by: string
+          status?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          event_id?: string
+          note?: string
+          recorded_by?: string
+          status?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "agenda_attendance_event_id_fkey"
+            columns: ["event_id"]
+            isOneToOne: false
+            referencedRelation: "agenda_events"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "agenda_attendance_recorded_by_fkey"
+            columns: ["recorded_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "agenda_attendance_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      agenda_attendance_history: {
+        Row: {
+          actor_id: string
+          created_at: string
+          event_id: string
+          id: string
+          new_status: string
+          note: string
+          old_status: string | null
+          user_id: string
+        }
+        Insert: {
+          actor_id: string
+          created_at?: string
+          event_id: string
+          id?: string
+          new_status: string
+          note?: string
+          old_status?: string | null
+          user_id: string
+        }
+        Update: {
+          actor_id?: string
+          created_at?: string
+          event_id?: string
+          id?: string
+          new_status?: string
+          note?: string
+          old_status?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "agenda_attendance_history_actor_id_fkey"
+            columns: ["actor_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "agenda_attendance_history_event_id_fkey"
+            columns: ["event_id"]
+            isOneToOne: false
+            referencedRelation: "agenda_events"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "agenda_attendance_history_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       agenda_events: {
         Row: {
           agenda: string
           archived_at: string | null
+          attendance_enabled: boolean
           created_at: string
           created_by: string
           ends_at: string
@@ -56,6 +161,7 @@ export type Database = {
         Insert: {
           agenda?: string
           archived_at?: string | null
+          attendance_enabled?: boolean
           created_at?: string
           created_by: string
           ends_at: string
@@ -76,6 +182,7 @@ export type Database = {
         Update: {
           agenda?: string
           archived_at?: string | null
+          attendance_enabled?: boolean
           created_at?: string
           created_by?: string
           ends_at?: string
@@ -889,6 +996,14 @@ export type Database = {
       }
       agenda_visible: {
         Args: { _event: string; _uid: string }
+        Returns: boolean
+      }
+      attendance_command: {
+        Args: { _action: string; _data?: Json; _event: string }
+        Returns: string
+      }
+      attendance_visible: {
+        Args: { _event: string; _subject: string; _uid: string }
         Returns: boolean
       }
       is_active_member: { Args: { _uid: string }; Returns: boolean }
