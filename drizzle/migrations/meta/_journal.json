@@ -43,6 +43,13 @@
       "when": 1792420518646,
       "tag": "0005_agenda_invited_manager_read",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1792469854936,
+      "tag": "0006_agenda_attendance",
+      "breakpoints": true
     }
   ]
 }
