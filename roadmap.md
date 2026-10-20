@@ -2,8 +2,9 @@
 - [x] Bloco 1 — Fundação (login por convite, perfis, setores, cargos, admin separado, módulos, competição, auditoria)
 - [x] Bloco 2 — Tarefas, voluntárias, colaboração/aprovações, notificações; fluxo testado com capitão
 - [ ] Validação multiusuário de gerente/membro/trainee e vagas simultâneas — depende de contas desses cargos
-- [ ] Bloco 3a — Agenda da equipe, eventos, reuniões e permissões por cargo (em andamento)
-- [ ] Bloco 3b — Chamada/assiduidade e testes
+- [x] Bloco 3a — Agenda da equipe, eventos, reuniões e permissões por cargo
+- [ ] Bloco 3b — Chamada e assiduidade (em andamento)
+- [ ] Bloco 3c — Testes e ensaios
 - [ ] Bloco 4 — Aeronave, Diário de Voo, fabricação, problemas, memória técnica
 - [ ] Bloco 5 — Compras, mural, sugestões anônimas, Marketing, patrocínios, mensalidades
 - [ ] Bloco 6 — PDFs, instalação no celular, testes finais
