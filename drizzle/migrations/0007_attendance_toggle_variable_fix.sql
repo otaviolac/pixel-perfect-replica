@@ -1,0 +1,38 @@
+CREATE OR REPLACE FUNCTION public.attendance_command(_action text,_event uuid,_data jsonb DEFAULT '{}') RETURNS uuid LANGUAGE plpgsql SECURITY DEFINER SET search_path=public AS $$
+DECLARE u uuid:=auth.uid(); e public.agenda_events%ROWTYPE; subject uuid; st text; old_st text; call_enabled boolean; manager boolean;
+BEGIN
+ IF u IS NULL OR NOT public.is_active_member(u) THEN RAISE EXCEPTION 'Acesso não autorizado.'; END IF;
+ SELECT * INTO e FROM public.agenda_events WHERE id=_event FOR UPDATE;
+ IF NOT FOUND OR NOT public.agenda_visible(_event,u) THEN RAISE EXCEPTION 'Evento não encontrado.'; END IF;
+ IF NOT EXISTS(SELECT 1 FROM public.feature_flags f WHERE f.key='agenda' AND f.enabled) OR (e.kind='meeting' AND NOT EXISTS(SELECT 1 FROM public.feature_flags f WHERE f.key='reunioes' AND f.enabled)) THEN RAISE EXCEPTION 'Módulo desabilitado. Histórico preservado.'; END IF;
+ manager:=public.agenda_manage(_event,u);
+ IF _action='toggle' THEN
+  IF NOT manager THEN RAISE EXCEPTION 'Somente a gerência competente ou capitão pode alterar a chamada.'; END IF;
+  call_enabled:=(_data->>'enabled')::boolean;
+  IF call_enabled IS NULL THEN RAISE EXCEPTION 'Informe o estado da chamada.'; END IF;
+  IF call_enabled AND e.status NOT IN ('scheduled','completed') THEN RAISE EXCEPTION 'Chamada disponível apenas para eventos aprovados ou concluídos.'; END IF;
+  UPDATE public.agenda_events SET attendance_enabled=call_enabled WHERE id=_event;
+  INSERT INTO public.agenda_history(event_id,actor_id,action,details) VALUES(_event,u,'attendance_toggle',jsonb_build_object('before',e.attendance_enabled,'enabled',call_enabled));
+ ELSIF _action='summon' THEN
+  subject:=(_data->>'user_id')::uuid;
+  IF NOT manager OR e.status NOT IN ('scheduled','completed') THEN RAISE EXCEPTION 'Sem permissão para convocar neste evento.'; END IF;
+  IF NOT public.is_captain(u) AND NOT EXISTS(SELECT 1 FROM public.memberships a JOIN public.memberships b ON b.sector_id=a.sector_id WHERE a.user_id=u AND b.user_id=subject) THEN RAISE EXCEPTION 'Você só pode convocar integrantes do próprio setor.'; END IF;
+  UPDATE public.agenda_invitees SET kind='convocation' WHERE event_id=_event AND user_id=subject;
+  IF NOT FOUND THEN RAISE EXCEPTION 'Selecione um participante do evento.'; END IF;
+  INSERT INTO public.agenda_history(event_id,actor_id,action,details) VALUES(_event,u,'attendance_summon',jsonb_build_object('user_id',subject));
+  INSERT INTO public.notifications(user_id,event_id,title,body) VALUES(subject,_event,'Convocação registrada',e.title);
+ ELSIF _action='record' THEN
+  IF NOT (manager OR e.organizer_id=u) THEN RAISE EXCEPTION 'Somente o responsável ou a gerência competente registra a chamada.'; END IF;
+  IF NOT e.attendance_enabled OR e.status NOT IN ('scheduled','completed') THEN RAISE EXCEPTION 'Habilite a chamada em um evento aprovado ou concluído.'; END IF;
+  subject:=(_data->>'user_id')::uuid; st:=_data->>'status';
+  IF st IS NULL OR st NOT IN ('present','absent','justified','excused','unrecorded') THEN RAISE EXCEPTION 'Situação de presença inválida.'; END IF;
+  IF NOT EXISTS(SELECT 1 FROM public.agenda_invitees WHERE event_id=_event AND user_id=subject AND kind='convocation') THEN RAISE EXCEPTION 'Chamada registra somente pessoas efetivamente convocadas.'; END IF;
+  SELECT status INTO old_st FROM public.agenda_attendance WHERE event_id=_event AND user_id=subject;
+  INSERT INTO public.agenda_attendance(event_id,user_id,status,note,recorded_by) VALUES(_event,subject,st,COALESCE(_data->>'note',''),u) ON CONFLICT(event_id,user_id) DO UPDATE SET status=excluded.status,note=excluded.note,recorded_by=u,updated_at=now();
+  INSERT INTO public.agenda_attendance_history(event_id,user_id,actor_id,old_status,new_status,note) VALUES(_event,subject,u,old_st,st,COALESCE(_data->>'note',''));
+ ELSE RAISE EXCEPTION 'Ação inválida.'; END IF;
+ INSERT INTO public.audit_log(actor_id,area,action,entity,entity_id,details) VALUES(u,'operacional','attendance_'||_action,'agenda_events',_event::text,_data);
+ RETURN _event;
+END $$;
+REVOKE ALL ON FUNCTION public.attendance_command(text,uuid,jsonb) FROM PUBLIC,anon;
+GRANT EXECUTE ON FUNCTION public.attendance_command(text,uuid,jsonb) TO authenticated;

@@ -155,6 +155,7 @@ export type Database = {
           starts_at: string
           status: string
           team_wide: boolean
+          test_mode: string | null
           title: string
           updated_at: string
         }
@@ -176,6 +177,7 @@ export type Database = {
           starts_at: string
           status?: string
           team_wide?: boolean
+          test_mode?: string | null
           title: string
           updated_at?: string
         }
@@ -197,6 +199,7 @@ export type Database = {
           starts_at?: string
           status?: string
           team_wide?: boolean
+          test_mode?: string | null
           title?: string
           updated_at?: string
         }
@@ -977,6 +980,269 @@ export type Database = {
         }
         Relationships: []
       }
+      test_checklists: {
+        Row: {
+          body: string
+          created_at: string
+          created_by: string
+          id: string
+          version: number
+        }
+        Insert: {
+          body: string
+          created_at?: string
+          created_by: string
+          id?: string
+          version?: never
+        }
+        Update: {
+          body?: string
+          created_at?: string
+          created_by?: string
+          id?: string
+          version?: never
+        }
+        Relationships: [
+          {
+            foreignKeyName: "test_checklists_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      test_safety_acknowledgments: {
+        Row: {
+          accepted: boolean
+          checklist_id: string
+          created_at: string
+          id: string
+          session_id: string
+          user_id: string
+        }
+        Insert: {
+          accepted: boolean
+          checklist_id: string
+          created_at?: string
+          id?: string
+          session_id: string
+          user_id: string
+        }
+        Update: {
+          accepted?: boolean
+          checklist_id?: string
+          created_at?: string
+          id?: string
+          session_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "test_safety_acknowledgments_checklist_id_fkey"
+            columns: ["checklist_id"]
+            isOneToOne: false
+            referencedRelation: "test_checklists"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "test_safety_acknowledgments_session_id_fkey"
+            columns: ["session_id"]
+            isOneToOne: false
+            referencedRelation: "test_sessions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "test_safety_acknowledgments_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      test_sector_invitations: {
+        Row: {
+          created_at: string
+          decided_at: string | null
+          decided_by: string | null
+          id: string
+          requested_by: string
+          sector_id: number
+          session_id: string
+          status: string
+        }
+        Insert: {
+          created_at?: string
+          decided_at?: string | null
+          decided_by?: string | null
+          id?: string
+          requested_by: string
+          sector_id: number
+          session_id: string
+          status?: string
+        }
+        Update: {
+          created_at?: string
+          decided_at?: string | null
+          decided_by?: string | null
+          id?: string
+          requested_by?: string
+          sector_id?: number
+          session_id?: string
+          status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "test_sector_invitations_decided_by_fkey"
+            columns: ["decided_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "test_sector_invitations_requested_by_fkey"
+            columns: ["requested_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "test_sector_invitations_sector_id_fkey"
+            columns: ["sector_id"]
+            isOneToOne: false
+            referencedRelation: "sectors"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "test_sector_invitations_session_id_fkey"
+            columns: ["session_id"]
+            isOneToOne: false
+            referencedRelation: "test_sessions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      test_sessions: {
+        Row: {
+          conditions: string
+          created_at: string
+          event_id: string
+          id: string
+          note: string
+          results: string
+          status: string
+          test_id: string
+          updated_at: string
+        }
+        Insert: {
+          conditions?: string
+          created_at?: string
+          event_id: string
+          id?: string
+          note?: string
+          results?: string
+          status: string
+          test_id: string
+          updated_at?: string
+        }
+        Update: {
+          conditions?: string
+          created_at?: string
+          event_id?: string
+          id?: string
+          note?: string
+          results?: string
+          status?: string
+          test_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "test_sessions_event_id_fkey"
+            columns: ["event_id"]
+            isOneToOne: true
+            referencedRelation: "agenda_events"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "test_sessions_test_id_fkey"
+            columns: ["test_id"]
+            isOneToOne: false
+            referencedRelation: "tests"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      tests: {
+        Row: {
+          archived_at: string | null
+          code: number
+          configuration: string
+          created_at: string
+          created_by: string
+          equipment: string
+          id: string
+          materials: string
+          mode: string
+          objective: string
+          observations: string
+          procedure: string
+          sector_id: number
+          title: string
+          type: string
+        }
+        Insert: {
+          archived_at?: string | null
+          code?: never
+          configuration?: string
+          created_at?: string
+          created_by: string
+          equipment?: string
+          id?: string
+          materials?: string
+          mode: string
+          objective: string
+          observations?: string
+          procedure?: string
+          sector_id: number
+          title: string
+          type: string
+        }
+        Update: {
+          archived_at?: string | null
+          code?: never
+          configuration?: string
+          created_at?: string
+          created_by?: string
+          equipment?: string
+          id?: string
+          materials?: string
+          mode?: string
+          objective?: string
+          observations?: string
+          procedure?: string
+          sector_id?: number
+          title?: string
+          type?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "tests_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "tests_sector_id_fkey"
+            columns: ["sector_id"]
+            isOneToOne: false
+            referencedRelation: "sectors"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
@@ -1020,6 +1286,16 @@ export type Database = {
       }
       task_manage: { Args: { _task: string; _uid: string }; Returns: boolean }
       task_visible: { Args: { _task: string; _uid: string }; Returns: boolean }
+      test_command: {
+        Args: {
+          _action: string
+          _data?: Json
+          _session?: string
+          _test?: string
+        }
+        Returns: string
+      }
+      test_visible: { Args: { _test: string; _uid: string }; Returns: boolean }
     }
     Enums: {
       operational_role: "trainee" | "membro" | "gerente" | "capitao"
