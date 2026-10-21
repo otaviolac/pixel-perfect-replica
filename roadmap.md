@@ -3,8 +3,8 @@
 - [x] Bloco 2 — Tarefas, voluntárias, colaboração/aprovações, notificações; fluxo testado com capitão
 - [ ] Validação multiusuário de gerente/membro/trainee e vagas simultâneas — depende de contas desses cargos
 - [x] Bloco 3a — Agenda da equipe, eventos, reuniões e permissões por cargo
-- [ ] Bloco 3b — Chamada e assiduidade (em andamento)
-- [ ] Bloco 3c — Testes e ensaios
+- [ ] Bloco 3b — Chamada e assiduidade: concluir validação com capitão
+- [ ] Bloco 3c — Testes e ensaios (em andamento)
 - [ ] Bloco 4 — Aeronave, Diário de Voo, fabricação, problemas, memória técnica
 - [ ] Bloco 5 — Compras, mural, sugestões anônimas, Marketing, patrocínios, mensalidades
 - [ ] Bloco 6 — PDFs, instalação no celular, testes finais
