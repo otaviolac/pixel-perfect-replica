@@ -57,6 +57,13 @@
       "when": 1792589728679,
       "tag": "0007_attendance_toggle_variable_fix",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1792589911855,
+      "tag": "0008_operational_tests_sessions",
+      "breakpoints": true
     }
   ]
 }
