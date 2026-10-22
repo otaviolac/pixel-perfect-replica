@@ -24,3 +24,5 @@
 - Agenda reads use RLS-scoped Query options under authenticated routes; pending proposals send information only and cannot accept participation responses before approval.
 - Attendance changes use an authenticated attendance_command RPC with event locks and operational authorization; current records and private per-person history remain separate from invitation responses.
 - Attendance summaries use RLS-scoped records and count only enabled, actual convocations with present or absent status; disabling a call never deletes its records.
+- Test mutations use the authenticated test_command RPC and separate session records linked to agenda events; checklist versions and acknowledgments preserve safety evidence and operational authority without admin bypass.
+- Tests have dedicated authenticated list/detail routes; agenda entries link to the test sheet rather than exposing generic event lifecycle controls, preventing contradictory session states.
