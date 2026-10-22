@@ -25,6 +25,7 @@ import { Route as AuthenticatedAgendaIndexRouteImport } from './routes/_authenti
 import { Route as AuthenticatedAgendaEventIdRouteImport } from './routes/_authenticated/agenda.$eventId'
 import { Route as AuthenticatedTarefasIndexRouteImport } from './routes/_authenticated/tarefas.index'
 import { Route as AuthenticatedTarefasTaskIdRouteImport } from './routes/_authenticated/tarefas.$taskId'
+import { Route as AuthenticatedTestesIndexRouteImport } from './routes/_authenticated/testes.index'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -114,6 +115,12 @@ const AuthenticatedTarefasTaskIdRoute =
     path: '/tarefas/$taskId',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedTestesIndexRoute =
+  AuthenticatedTestesIndexRouteImport.update({
+    id: '/testes/',
+    path: '/testes/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -131,6 +138,7 @@ export interface FileRoutesByFullPath {
   '/tarefas/$taskId': typeof AuthenticatedTarefasTaskIdRoute
   '/agenda/': typeof AuthenticatedAgendaIndexRoute
   '/tarefas/': typeof AuthenticatedTarefasIndexRoute
+  '/testes/': typeof AuthenticatedTestesIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -148,6 +156,7 @@ export interface FileRoutesByTo {
   '/tarefas/$taskId': typeof AuthenticatedTarefasTaskIdRoute
   '/agenda': typeof AuthenticatedAgendaIndexRoute
   '/tarefas': typeof AuthenticatedTarefasIndexRoute
+  '/testes': typeof AuthenticatedTestesIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -167,6 +176,7 @@ export interface FileRoutesById {
   '/_authenticated/tarefas/$taskId': typeof AuthenticatedTarefasTaskIdRoute
   '/_authenticated/agenda/': typeof AuthenticatedAgendaIndexRoute
   '/_authenticated/tarefas/': typeof AuthenticatedTarefasIndexRoute
+  '/_authenticated/testes/': typeof AuthenticatedTestesIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -186,6 +196,7 @@ export interface FileRouteTypes {
     | '/tarefas/$taskId'
     | '/agenda/'
     | '/tarefas/'
+    | '/testes/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -203,6 +214,7 @@ export interface FileRouteTypes {
     | '/tarefas/$taskId'
     | '/agenda'
     | '/tarefas'
+    | '/testes'
   id:
     | '__root__'
     | '/'
@@ -221,6 +233,7 @@ export interface FileRouteTypes {
     | '/_authenticated/tarefas/$taskId'
     | '/_authenticated/agenda/'
     | '/_authenticated/tarefas/'
+    | '/_authenticated/testes/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -344,6 +357,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedTarefasTaskIdRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/testes/': {
+      id: '/_authenticated/testes/'
+      path: '/testes'
+      fullPath: '/testes/'
+      preLoaderRoute: typeof AuthenticatedTestesIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
 
@@ -360,6 +380,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedTarefasTaskIdRoute: typeof AuthenticatedTarefasTaskIdRoute
   AuthenticatedAgendaIndexRoute: typeof AuthenticatedAgendaIndexRoute
   AuthenticatedTarefasIndexRoute: typeof AuthenticatedTarefasIndexRoute
+  AuthenticatedTestesIndexRoute: typeof AuthenticatedTestesIndexRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
@@ -375,6 +396,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedTarefasTaskIdRoute: AuthenticatedTarefasTaskIdRoute,
   AuthenticatedAgendaIndexRoute: AuthenticatedAgendaIndexRoute,
   AuthenticatedTarefasIndexRoute: AuthenticatedTarefasIndexRoute,
+  AuthenticatedTestesIndexRoute: AuthenticatedTestesIndexRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =
