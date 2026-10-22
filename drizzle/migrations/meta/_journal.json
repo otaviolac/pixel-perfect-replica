@@ -64,6 +64,13 @@
       "when": 1792589911855,
       "tag": "0008_operational_tests_sessions",
       "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "7",
+      "when": 1792674092389,
+      "tag": "0009_test_safety_and_invited_sector_visibility",
+      "breakpoints": true
     }
   ]
 }
