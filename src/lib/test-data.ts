@@ -5,13 +5,13 @@ export type Measurements = { columns: MeasurementColumn[]; rows: (number | null)
 export function parseMeasurements(csv: string): Measurements {
   if (new TextEncoder().encode(csv).length > 2 * 1024 * 1024) throw new Error('O CSV deve ter até 2 MB.');
   const parsed = Papa.parse<string[]>(csv.replace(/^\uFEFF/, ''), { skipEmptyLines: 'greedy' });
-  if (parsed.errors.length) throw new Error(`CSV inválido: linha ${(parsed.errors[0].row ?? 0) + 1}.`);
+  if (parsed.errors.length) throw new Error(`CSV inválido: linha ${(parsed.errors[0]?.row ?? 0) + 1}.`);
   const [headers, ...records] = parsed.data;
   if (!headers || headers.length < 2 || headers.length > 30) throw new Error('O CSV precisa ter de 2 a 30 colunas.');
   const columns = headers.map(header => {
     const match = header.trim().match(/^(.+?)\s*\[([^\]]+)\]$/);
     if (!match) throw new Error(`Informe a unidade no cabeçalho: ${header || 'coluna sem nome'} [unidade].`);
-    const name = match[1].trim(); const unit = match[2].trim();
+    const name = match[1]?.trim() ?? ''; const unit = match[2]?.trim() ?? '';
     if (!name || !unit) throw new Error('Nome e unidade são obrigatórios.');
     return { name, unit };
   });
@@ -23,7 +23,7 @@ export function parseMeasurements(csv: string): Measurements {
       const value = cell.trim();
       if (!value) return null;
       const normalized = value.replace(',', '.');
-      if (!/^[+-]?(?:\d+(?:\.\d*)?|\.\d+)(?:[eE][+-]?\d+)?$/.test(normalized) || !Number.isFinite(Number(normalized))) throw new Error(`Linha ${index + 2}, coluna ${columns[col].name}: valor não numérico.`);
+      if (!/^[+-]?(?:\d+(?:\.\d*)?|\.\d+)(?:[eE][+-]?\d+)?$/.test(normalized) || !Number.isFinite(Number(normalized))) throw new Error(`Linha ${index + 2}, coluna ${columns[col]?.name}: valor não numérico.`);
       return Number(normalized);
     });
   });

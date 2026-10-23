@@ -14,7 +14,7 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import type { Tables } from '@/integrations/supabase/types';
 
-export function TestAnalysisPanel({ testId, sessionId, sessions, editable, canIssue }: { testId: string; sessionId?: string; sessions: Tables<'test_sessions'>[]; editable: boolean; canIssue: boolean }) {
+export function TestAnalysisPanel({ testId, sessionId, sessions, editable, canIssue }: { testId: string; sessionId: string | undefined; sessions: Tables<'test_sessions'>[]; editable: boolean; canIssue: boolean }) {
   const { data } = useSuspenseQuery(testAnalysisQuery(testId));
   const command = useServerFn(testAnalysisCommand); const qc = useQueryClient();
   const [preview, setPreview] = useState<Measurements | null>(null); const [filename, setFilename] = useState('');
