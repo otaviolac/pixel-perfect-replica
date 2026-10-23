@@ -71,6 +71,13 @@
       "when": 1792674092389,
       "tag": "0009_test_safety_and_invited_sector_visibility",
       "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "7",
+      "when": 1792758151148,
+      "tag": "0010_test_measurements_and_document_revisions",
+      "breakpoints": true
     }
   ]
 }
