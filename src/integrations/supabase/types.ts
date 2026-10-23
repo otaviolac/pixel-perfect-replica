@@ -1012,6 +1012,99 @@ export type Database = {
           },
         ]
       }
+      test_datasets: {
+        Row: {
+          columns: Json
+          created_at: string
+          created_by: string
+          filename: string
+          id: string
+          metadata: Json
+          rows: Json
+          session_id: string
+        }
+        Insert: {
+          columns: Json
+          created_at?: string
+          created_by: string
+          filename: string
+          id?: string
+          metadata?: Json
+          rows: Json
+          session_id: string
+        }
+        Update: {
+          columns?: Json
+          created_at?: string
+          created_by?: string
+          filename?: string
+          id?: string
+          metadata?: Json
+          rows?: Json
+          session_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "test_datasets_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "test_datasets_session_id_fkey"
+            columns: ["session_id"]
+            isOneToOne: false
+            referencedRelation: "test_sessions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      test_documents: {
+        Row: {
+          id: string
+          issued_at: string
+          issued_by: string
+          partial: boolean
+          revision: number
+          snapshot: Json
+          test_id: string
+        }
+        Insert: {
+          id?: string
+          issued_at?: string
+          issued_by: string
+          partial: boolean
+          revision: number
+          snapshot: Json
+          test_id: string
+        }
+        Update: {
+          id?: string
+          issued_at?: string
+          issued_by?: string
+          partial?: boolean
+          revision?: number
+          snapshot?: Json
+          test_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "test_documents_issued_by_fkey"
+            columns: ["issued_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "test_documents_test_id_fkey"
+            columns: ["test_id"]
+            isOneToOne: false
+            referencedRelation: "tests"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       test_safety_acknowledgments: {
         Row: {
           accepted: boolean
@@ -1286,6 +1379,15 @@ export type Database = {
       }
       task_manage: { Args: { _task: string; _uid: string }; Returns: boolean }
       task_visible: { Args: { _task: string; _uid: string }; Returns: boolean }
+      test_analysis_command: {
+        Args: {
+          _action: string
+          _data?: Json
+          _session?: string
+          _test: string
+        }
+        Returns: string
+      }
       test_command: {
         Args: {
           _action: string

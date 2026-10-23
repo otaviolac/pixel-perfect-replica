@@ -20,12 +20,14 @@ import { eventAttendanceQuery } from '@/lib/attendance';
 import type { Tables } from '@/integrations/supabase/types';
 import { agendaCommand } from '@/lib/agenda.functions';
 import { INVITE_KIND, RESPONSE } from '@/lib/agenda-rules';
+import { testAnalysisQuery } from '@/lib/test-analysis';
+import { TestAnalysisPanel } from '@/components/TestAnalysisPanel';
 
 export const Route = createFileRoute('/_authenticated/testes/$testId')({
   head: () => pageHead('Ficha de teste', 'Objetivo, sessões, segurança, participantes e resultados do ensaio Aerodesign.'),
   loader: async ({ context, params }) => {
     const detail = await context.queryClient.ensureQueryData(testDetailQuery(params.testId));
-    await Promise.all([context.queryClient.ensureQueryData(checklistsQuery), context.queryClient.ensureQueryData(flagsQuery), ...detail.events.map(e => context.queryClient.ensureQueryData(eventAttendanceQuery(e.id)))]);
+    await Promise.all([context.queryClient.ensureQueryData(checklistsQuery), context.queryClient.ensureQueryData(flagsQuery), context.queryClient.ensureQueryData(testAnalysisQuery(params.testId)), ...detail.events.map(e => context.queryClient.ensureQueryData(eventAttendanceQuery(e.id)))]);
   }, component: TestDetail,
 });
 function TestDetail() {
@@ -43,7 +45,7 @@ function TestDetail() {
     try { await command({ data: { action, test: testId, session: session.id, payload } }); await qc.invalidateQueries(); toast.success('Teste atualizado.'); }
     catch (error) { toast.error(error instanceof Error ? error.message : 'Não foi possível atualizar.'); } finally { setBusy(false); }
   }
-  const labels: Record<string, string> = { test_create: 'Teste criado', test_session: 'Sessão adicionada', test_approve: 'Teste aprovado', test_reject: 'Teste não aprovado', test_results: 'Resultados registrados', test_status: 'Situação alterada', test_invite: 'Setor convidado', test_decide: 'Convite respondido', test_archive: 'Teste arquivado', respond: 'Resposta de participação', attendance_toggle: 'Chamada alterada', attendance_summon: 'Convocação registrada' };
+  const labels: Record<string, string> = { test_dataset: 'Medições registradas', test_create: 'Teste criado', test_session: 'Sessão adicionada', test_approve: 'Teste aprovado', test_reject: 'Teste não aprovado', test_results: 'Resultados registrados', test_status: 'Situação alterada', test_invite: 'Setor convidado', test_decide: 'Convite respondido', test_archive: 'Teste arquivado', respond: 'Resposta de participação', attendance_toggle: 'Chamada alterada', attendance_summon: 'Convocação registrada' };
   return <div className="space-y-6"><Link to="/testes" className="flex items-center gap-2 text-sm text-muted-foreground"><ArrowLeft className="h-4 w-4"/>Testes e ensaios</Link>
     <header className="space-y-3 border-b pb-5"><div className="flex flex-wrap justify-between gap-3"><div className="min-w-0"><p className="text-xs text-muted-foreground">#{data.test.code} · {TEST_MODE[data.test.mode as keyof typeof TEST_MODE]}{data.test.archived_at ? ' · Arquivado' : ''}</p><h1 className="mt-2 break-words text-2xl font-semibold">{data.test.title}</h1></div>{enabled && canAddTestSession(me, data.test) && <Button variant="outline" onClick={() => setForm(true)}><Plus className="h-4 w-4"/>Nova sessão</Button>}</div><p className="break-words text-sm text-muted-foreground">{data.test.type} · {sectors.find(s => s.id === data.test.sector_id)?.name}</p><h2 className="font-semibold">Objetivo</h2><p className="whitespace-pre-wrap break-words text-sm">{data.test.objective}</p></header>
     {!enabled && <p className="text-sm text-muted-foreground">Registro em consulta. Histórico preservado.</p>}
@@ -58,6 +60,7 @@ function TestDetail() {
         {enabled && manager && data.sessions.every(s => !['pending', 'scheduled', 'running', 'result_pending'].includes(s.status)) && <Button variant="outline" disabled={busy} onClick={() => act('archive')}><Archive className="h-4 w-4"/>Arquivar teste</Button>}
       </>}
     </section>
+    <TestAnalysisPanel key={`analysis-${session?.id}`} testId={testId} sessionId={session?.id} sessions={data.sessions} editable={enabled && (manager || owner) && !!session && !['pending', 'rejected', 'cancelled'].includes(session.status)} canIssue={enabled && (manager || owner || me?.id === data.test.created_by)}/>
     <section className="space-y-3 border-t pt-5"><h2 className="font-semibold">Histórico da sessão</h2><div className="divide-y">{data.history.filter(h => h.event_id === event?.id).map(h => <p key={h.id} className="break-words py-3 text-xs text-muted-foreground">{labels[h.action] ?? 'Registro atualizado'} · {person(h.actor_id)} · {fmtDateTime(h.created_at)}{h.action === 'test_status' && typeof h.details === 'object' && h.details && !Array.isArray(h.details) && typeof h.details['note'] === 'string' ? ` · ${h.details['note']}` : ''}</p>)}</div></section>
     {form && <TestForm current={data.test} mode={data.test.mode as 'normal_test' | 'quick_test'} onClose={() => setForm(false)}/>}
   </div>;

@@ -26,3 +26,5 @@
 - Attendance summaries use RLS-scoped records and count only enabled, actual convocations with present or absent status; disabling a call never deletes its records.
 - Test mutations use the authenticated test_command RPC and separate session records linked to agenda events; checklist versions and acknowledgments preserve safety evidence and operational authority without admin bypass.
 - Tests have dedicated authenticated list/detail routes; agenda entries link to the test sheet rather than exposing generic event lifecycle controls, preventing contradictory session states.
+- Test measurements are immutable per-session records validated by an authenticated transactional RPC; missing cells remain null and comparisons require matching column names and units.
+- Test document revisions store server-created immutable snapshots and generate paginated PDFs client-side; downloads of old revisions never read current mutable test data.
