@@ -350,6 +350,142 @@ export type Database = {
           },
         ]
       }
+      aircraft: {
+        Row: {
+          archived_at: string | null
+          created_at: string
+          created_by: string
+          id: string
+          name: string
+          project: string | null
+        }
+        Insert: {
+          archived_at?: string | null
+          created_at?: string
+          created_by?: string
+          id?: string
+          name: string
+          project?: string | null
+        }
+        Update: {
+          archived_at?: string | null
+          created_at?: string
+          created_by?: string
+          id?: string
+          name?: string
+          project?: string | null
+        }
+        Relationships: []
+      }
+      aircraft_parameter_history: {
+        Row: {
+          aircraft_id: string
+          changed_at: string
+          changed_by: string
+          id: number
+          name: string
+          new_value: string | null
+          note: string | null
+          old_value: string | null
+          origin: string | null
+          parameter_id: string
+          unit: string
+          version: number
+        }
+        Insert: {
+          aircraft_id: string
+          changed_at?: string
+          changed_by: string
+          id?: number
+          name: string
+          new_value?: string | null
+          note?: string | null
+          old_value?: string | null
+          origin?: string | null
+          parameter_id: string
+          unit: string
+          version: number
+        }
+        Update: {
+          aircraft_id?: string
+          changed_at?: string
+          changed_by?: string
+          id?: number
+          name?: string
+          new_value?: string | null
+          note?: string | null
+          old_value?: string | null
+          origin?: string | null
+          parameter_id?: string
+          unit?: string
+          version?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "aircraft_parameter_history_parameter_id_fkey"
+            columns: ["parameter_id"]
+            isOneToOne: false
+            referencedRelation: "aircraft_parameters"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      aircraft_parameters: {
+        Row: {
+          aircraft_id: string
+          archived_at: string | null
+          category: string
+          id: string
+          name: string
+          note: string | null
+          origin: string | null
+          text_value: string | null
+          unit: string
+          updated_at: string
+          updated_by: string
+          value: number | null
+          version: number
+        }
+        Insert: {
+          aircraft_id: string
+          archived_at?: string | null
+          category: string
+          id?: string
+          name: string
+          note?: string | null
+          origin?: string | null
+          text_value?: string | null
+          unit: string
+          updated_at?: string
+          updated_by?: string
+          value?: number | null
+          version?: number
+        }
+        Update: {
+          aircraft_id?: string
+          archived_at?: string | null
+          category?: string
+          id?: string
+          name?: string
+          note?: string | null
+          origin?: string | null
+          text_value?: string | null
+          unit?: string
+          updated_at?: string
+          updated_by?: string
+          value?: number | null
+          version?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "aircraft_parameters_aircraft_id_fkey"
+            columns: ["aircraft_id"]
+            isOneToOne: false
+            referencedRelation: "aircraft"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       audit_log: {
         Row: {
           action: string
@@ -413,6 +549,102 @@ export type Database = {
         }
         Relationships: []
       }
+      fabrication_items: {
+        Row: {
+          aircraft_id: string | null
+          archived_at: string | null
+          created_at: string
+          created_by: string
+          description: string | null
+          done_date: string | null
+          due_date: string | null
+          id: string
+          name: string
+          observations: string | null
+          parent_id: string | null
+          responsible_id: string
+          sector_id: number
+          start_date: string | null
+          status: string
+          task_id: string | null
+          updated_at: string
+        }
+        Insert: {
+          aircraft_id?: string | null
+          archived_at?: string | null
+          created_at?: string
+          created_by?: string
+          description?: string | null
+          done_date?: string | null
+          due_date?: string | null
+          id?: string
+          name: string
+          observations?: string | null
+          parent_id?: string | null
+          responsible_id: string
+          sector_id: number
+          start_date?: string | null
+          status?: string
+          task_id?: string | null
+          updated_at?: string
+        }
+        Update: {
+          aircraft_id?: string | null
+          archived_at?: string | null
+          created_at?: string
+          created_by?: string
+          description?: string | null
+          done_date?: string | null
+          due_date?: string | null
+          id?: string
+          name?: string
+          observations?: string | null
+          parent_id?: string | null
+          responsible_id?: string
+          sector_id?: number
+          start_date?: string | null
+          status?: string
+          task_id?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "fabrication_items_aircraft_id_fkey"
+            columns: ["aircraft_id"]
+            isOneToOne: false
+            referencedRelation: "aircraft"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "fabrication_items_parent_id_fkey"
+            columns: ["parent_id"]
+            isOneToOne: false
+            referencedRelation: "fabrication_items"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "fabrication_items_responsible_id_fkey"
+            columns: ["responsible_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "fabrication_items_sector_id_fkey"
+            columns: ["sector_id"]
+            isOneToOne: false
+            referencedRelation: "sectors"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "fabrication_items_task_id_fkey"
+            columns: ["task_id"]
+            isOneToOne: false
+            referencedRelation: "tasks"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       feature_flags: {
         Row: {
           enabled: boolean
@@ -436,6 +668,232 @@ export type Database = {
           updated_by?: string | null
         }
         Relationships: []
+      }
+      flight_contributors: {
+        Row: {
+          added_by: string
+          flight_id: string
+          user_id: string
+        }
+        Insert: {
+          added_by?: string
+          flight_id: string
+          user_id: string
+        }
+        Update: {
+          added_by?: string
+          flight_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "flight_contributors_flight_id_fkey"
+            columns: ["flight_id"]
+            isOneToOne: false
+            referencedRelation: "flights"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "flight_contributors_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      flight_notes: {
+        Row: {
+          author_id: string
+          body: string
+          created_at: string
+          flight_id: string
+          id: string
+        }
+        Insert: {
+          author_id?: string
+          body: string
+          created_at?: string
+          flight_id: string
+          id?: string
+        }
+        Update: {
+          author_id?: string
+          body?: string
+          created_at?: string
+          flight_id?: string
+          id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "flight_notes_flight_id_fkey"
+            columns: ["flight_id"]
+            isOneToOne: false
+            referencedRelation: "flights"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      flights: {
+        Row: {
+          aircraft_id: string | null
+          archived_at: string | null
+          configuration: string | null
+          created_at: string
+          created_by: string
+          duration_min: number | null
+          flown_at: string
+          id: string
+          incidents: string | null
+          location: string
+          objective: string
+          observations: string | null
+          pilot: string
+          problem_id: string | null
+          results: string | null
+          sector_id: number
+          test_id: string | null
+          updated_at: string
+          weather: string | null
+        }
+        Insert: {
+          aircraft_id?: string | null
+          archived_at?: string | null
+          configuration?: string | null
+          created_at?: string
+          created_by?: string
+          duration_min?: number | null
+          flown_at: string
+          id?: string
+          incidents?: string | null
+          location: string
+          objective: string
+          observations?: string | null
+          pilot: string
+          problem_id?: string | null
+          results?: string | null
+          sector_id: number
+          test_id?: string | null
+          updated_at?: string
+          weather?: string | null
+        }
+        Update: {
+          aircraft_id?: string | null
+          archived_at?: string | null
+          configuration?: string | null
+          created_at?: string
+          created_by?: string
+          duration_min?: number | null
+          flown_at?: string
+          id?: string
+          incidents?: string | null
+          location?: string
+          objective?: string
+          observations?: string | null
+          pilot?: string
+          problem_id?: string | null
+          results?: string | null
+          sector_id?: number
+          test_id?: string | null
+          updated_at?: string
+          weather?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "flights_aircraft_id_fkey"
+            columns: ["aircraft_id"]
+            isOneToOne: false
+            referencedRelation: "aircraft"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "flights_problem_fk"
+            columns: ["problem_id"]
+            isOneToOne: false
+            referencedRelation: "problems"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "flights_sector_id_fkey"
+            columns: ["sector_id"]
+            isOneToOne: false
+            referencedRelation: "sectors"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "flights_test_id_fkey"
+            columns: ["test_id"]
+            isOneToOne: false
+            referencedRelation: "tests"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      knowledge_entries: {
+        Row: {
+          aircraft_id: string | null
+          archived_at: string | null
+          body: string
+          created_at: string
+          created_by: string
+          entry_date: string
+          id: string
+          kind: string
+          refs: string | null
+          search: unknown
+          sector_id: number
+          subject: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          aircraft_id?: string | null
+          archived_at?: string | null
+          body: string
+          created_at?: string
+          created_by?: string
+          entry_date?: string
+          id?: string
+          kind: string
+          refs?: string | null
+          search?: unknown
+          sector_id: number
+          subject: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          aircraft_id?: string | null
+          archived_at?: string | null
+          body?: string
+          created_at?: string
+          created_by?: string
+          entry_date?: string
+          id?: string
+          kind?: string
+          refs?: string | null
+          search?: unknown
+          sector_id?: number
+          subject?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "knowledge_entries_aircraft_id_fkey"
+            columns: ["aircraft_id"]
+            isOneToOne: false
+            referencedRelation: "aircraft"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "knowledge_entries_sector_id_fkey"
+            columns: ["sector_id"]
+            isOneToOne: false
+            referencedRelation: "sectors"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       memberships: {
         Row: {
@@ -518,6 +976,124 @@ export type Database = {
           {
             foreignKeyName: "notifications_user_id_fkey"
             columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      problems: {
+        Row: {
+          actions: string | null
+          circumstances: string | null
+          closed_at: string | null
+          closure_note: string | null
+          code: number
+          created_at: string
+          created_by: string
+          criticality: string
+          description: string
+          fabrication_id: string | null
+          flight_id: string | null
+          id: string
+          occurred_on: string
+          scope: string
+          sector_id: number
+          solution: string | null
+          status: string
+          task_id: string | null
+          test_id: string | null
+          title: string
+          triage_by: string | null
+          updated_at: string
+        }
+        Insert: {
+          actions?: string | null
+          circumstances?: string | null
+          closed_at?: string | null
+          closure_note?: string | null
+          code?: never
+          created_at?: string
+          created_by?: string
+          criticality: string
+          description: string
+          fabrication_id?: string | null
+          flight_id?: string | null
+          id?: string
+          occurred_on?: string
+          scope: string
+          sector_id: number
+          solution?: string | null
+          status?: string
+          task_id?: string | null
+          test_id?: string | null
+          title: string
+          triage_by?: string | null
+          updated_at?: string
+        }
+        Update: {
+          actions?: string | null
+          circumstances?: string | null
+          closed_at?: string | null
+          closure_note?: string | null
+          code?: never
+          created_at?: string
+          created_by?: string
+          criticality?: string
+          description?: string
+          fabrication_id?: string | null
+          flight_id?: string | null
+          id?: string
+          occurred_on?: string
+          scope?: string
+          sector_id?: number
+          solution?: string | null
+          status?: string
+          task_id?: string | null
+          test_id?: string | null
+          title?: string
+          triage_by?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "problems_fabrication_id_fkey"
+            columns: ["fabrication_id"]
+            isOneToOne: false
+            referencedRelation: "fabrication_items"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "problems_flight_id_fkey"
+            columns: ["flight_id"]
+            isOneToOne: false
+            referencedRelation: "flights"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "problems_sector_id_fkey"
+            columns: ["sector_id"]
+            isOneToOne: false
+            referencedRelation: "sectors"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "problems_task_id_fkey"
+            columns: ["task_id"]
+            isOneToOne: false
+            referencedRelation: "tasks"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "problems_test_id_fkey"
+            columns: ["test_id"]
+            isOneToOne: false
+            referencedRelation: "tests"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "problems_triage_by_fkey"
+            columns: ["triage_by"]
             isOneToOne: false
             referencedRelation: "profiles"
             referencedColumns: ["id"]
@@ -980,6 +1556,66 @@ export type Database = {
         }
         Relationships: []
       }
+      technical_files: {
+        Row: {
+          created_at: string
+          id: string
+          kind: string
+          name: string
+          path: string
+          record_id: string
+          uploaded_by: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          kind: string
+          name: string
+          path: string
+          record_id: string
+          uploaded_by?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          kind?: string
+          name?: string
+          path?: string
+          record_id?: string
+          uploaded_by?: string
+        }
+        Relationships: []
+      }
+      technical_history: {
+        Row: {
+          action: string
+          actor: string | null
+          changes: Json
+          created_at: string
+          id: number
+          kind: string
+          record_id: string
+        }
+        Insert: {
+          action: string
+          actor?: string | null
+          changes?: Json
+          created_at?: string
+          id?: number
+          kind: string
+          record_id: string
+        }
+        Update: {
+          action?: string
+          actor?: string | null
+          changes?: Json
+          created_at?: string
+          id?: number
+          kind?: string
+          record_id?: string
+        }
+        Relationships: []
+      }
       test_checklists: {
         Row: {
           body: string
@@ -1336,6 +1972,95 @@ export type Database = {
           },
         ]
       }
+      training_completions: {
+        Row: {
+          completed_on: string
+          note: string | null
+          recorded_at: string
+          recorded_by: string
+          resource_id: string
+          user_id: string
+        }
+        Insert: {
+          completed_on?: string
+          note?: string | null
+          recorded_at?: string
+          recorded_by?: string
+          resource_id: string
+          user_id: string
+        }
+        Update: {
+          completed_on?: string
+          note?: string | null
+          recorded_at?: string
+          recorded_by?: string
+          resource_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "training_completions_resource_id_fkey"
+            columns: ["resource_id"]
+            isOneToOne: false
+            referencedRelation: "training_resources"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "training_completions_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      training_resources: {
+        Row: {
+          archived_at: string | null
+          created_at: string
+          created_by: string
+          criterion: string | null
+          description: string | null
+          id: string
+          link: string | null
+          qualification: string | null
+          sector_id: number
+          title: string
+        }
+        Insert: {
+          archived_at?: string | null
+          created_at?: string
+          created_by?: string
+          criterion?: string | null
+          description?: string | null
+          id?: string
+          link?: string | null
+          qualification?: string | null
+          sector_id: number
+          title: string
+        }
+        Update: {
+          archived_at?: string | null
+          created_at?: string
+          created_by?: string
+          criterion?: string | null
+          description?: string | null
+          id?: string
+          link?: string | null
+          qualification?: string | null
+          sector_id?: number
+          title?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "training_resources_sector_id_fkey"
+            columns: ["sector_id"]
+            isOneToOne: false
+            referencedRelation: "sectors"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
@@ -1379,6 +2104,13 @@ export type Database = {
       }
       task_manage: { Args: { _task: string; _uid: string }; Returns: boolean }
       task_visible: { Args: { _task: string; _uid: string }; Returns: boolean }
+      tech_any_manager: { Args: { _uid: string }; Returns: boolean }
+      tech_can_write: { Args: { _id: string; _kind: string }; Returns: boolean }
+      tech_manages: {
+        Args: { _sector: number; _uid: string }
+        Returns: boolean
+      }
+      tech_role: { Args: { _uid: string }; Returns: string }
       test_analysis_command: {
         Args: {
           _action: string

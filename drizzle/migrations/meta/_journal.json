@@ -78,6 +78,13 @@
       "when": 1792758151148,
       "tag": "0010_test_measurements_and_document_revisions",
       "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "7",
+      "when": 1793710564801,
+      "tag": "0011_technical_modules",
+      "breakpoints": true
     }
   ]
 }
