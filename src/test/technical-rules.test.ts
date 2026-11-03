@@ -9,5 +9,5 @@ describe('Regras técnicas', () => {
   it('fechamento exige documentação', () => expect(closureMissing('closed', '  ')).toBe(true));
   it('valor ausente aparece como Pendente, nunca zero', () => expect(parameterValue({ value: null, text_value: null, unit: 'm' })).toBe('Pendente'));
   it('zero medido continua zero', () => expect(parameterValue({ value: 0, text_value: null, unit: 'kg' })).toBe('0 kg'));
-  it('cálculo com dado ausente fica indisponível com motivo', () => expect(dependentCalc({ envergadura: 2, corda: null }, v => v.envergadura * v.corda)).toEqual({ ok: false, reason: 'Indisponível: falta corda.' }));
+  it('cálculo com dado ausente fica indisponível com motivo', () => expect(dependentCalc({ envergadura: 2, corda: null }, v => (v['envergadura'] ?? 0) * (v['corda'] ?? 0))).toEqual({ ok: false, reason: 'Indisponível: falta corda.' }));
 });

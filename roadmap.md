@@ -6,7 +6,7 @@
 - [x] Bloco 3b — Chamada e assiduidade: persistência, desligamento e restauração validados com capitão
 - [ ] Bloco 3c — Testes e ensaios: aguardando o checklist de segurança do usuário (lembrar)
 - [ ] Bloco 3c — Importação CSV, gráficos comparáveis e documentos de teste versionados (em implementação)
-- [ ] Bloco 4 — Aeronave, Diário de Voo, fabricação, problemas, memória técnica
+- [ ] Bloco 4 — banco pronto (aeronave, voos, fabricação, problemas, memória e formação); telas pendentes
 - [ ] Bloco 5 — Compras, mural, sugestões anônimas, Marketing, patrocínios, mensalidades
 - [ ] Bloco 6 — PDFs, instalação no celular, testes finais
 - [x] Primeiro capitão/admin — acessos concedidos e confirmados
