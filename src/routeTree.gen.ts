@@ -16,12 +16,16 @@ import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 import { Route as AuthenticatedAeronaveRouteImport } from './routes/_authenticated/aeronave'
 import { Route as AuthenticatedAssiduidadeRouteImport } from './routes/_authenticated/assiduidade'
+import { Route as AuthenticatedFabricacaoRouteImport } from './routes/_authenticated/fabricacao'
 import { Route as AuthenticatedInicioRouteImport } from './routes/_authenticated/inicio'
 import { Route as AuthenticatedIntegrantesRouteImport } from './routes/_authenticated/integrantes'
+import { Route as AuthenticatedMemoriaRouteImport } from './routes/_authenticated/memoria'
 import { Route as AuthenticatedNotificacoesRouteImport } from './routes/_authenticated/notificacoes'
 import { Route as AuthenticatedPerfilRouteImport } from './routes/_authenticated/perfil'
+import { Route as AuthenticatedProblemasRouteImport } from './routes/_authenticated/problemas'
 import { Route as AuthenticatedSolicitacoesRouteImport } from './routes/_authenticated/solicitacoes'
 import { Route as AuthenticatedVoluntariasRouteImport } from './routes/_authenticated/voluntarias'
+import { Route as AuthenticatedVoosRouteImport } from './routes/_authenticated/voos'
 import { Route as AuthenticatedAgendaIndexRouteImport } from './routes/_authenticated/agenda.index'
 import { Route as AuthenticatedAgendaEventIdRouteImport } from './routes/_authenticated/agenda.$eventId'
 import { Route as AuthenticatedTarefasIndexRouteImport } from './routes/_authenticated/tarefas.index'
@@ -64,6 +68,11 @@ const AuthenticatedAssiduidadeRoute =
     path: '/assiduidade',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedFabricacaoRoute = AuthenticatedFabricacaoRouteImport.update({
+  id: '/fabricacao',
+  path: '/fabricacao',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedInicioRoute = AuthenticatedInicioRouteImport.update({
   id: '/inicio',
   path: '/inicio',
@@ -75,6 +84,11 @@ const AuthenticatedIntegrantesRoute =
     path: '/integrantes',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedMemoriaRoute = AuthenticatedMemoriaRouteImport.update({
+  id: '/memoria',
+  path: '/memoria',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedNotificacoesRoute =
   AuthenticatedNotificacoesRouteImport.update({
     id: '/notificacoes',
@@ -84,6 +98,11 @@ const AuthenticatedNotificacoesRoute =
 const AuthenticatedPerfilRoute = AuthenticatedPerfilRouteImport.update({
   id: '/perfil',
   path: '/perfil',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedProblemasRoute = AuthenticatedProblemasRouteImport.update({
+  id: '/problemas',
+  path: '/problemas',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedSolicitacoesRoute =
@@ -98,6 +117,11 @@ const AuthenticatedVoluntariasRoute =
     path: '/voluntarias',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedVoosRoute = AuthenticatedVoosRouteImport.update({
+  id: '/voos',
+  path: '/voos',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedAgendaIndexRoute =
   AuthenticatedAgendaIndexRouteImport.update({
     id: '/agenda/',
@@ -142,12 +166,16 @@ export interface FileRoutesByFullPath {
   '/admin': typeof AuthenticatedAdminRoute
   '/aeronave': typeof AuthenticatedAeronaveRoute
   '/assiduidade': typeof AuthenticatedAssiduidadeRoute
+  '/fabricacao': typeof AuthenticatedFabricacaoRoute
   '/inicio': typeof AuthenticatedInicioRoute
   '/integrantes': typeof AuthenticatedIntegrantesRoute
+  '/memoria': typeof AuthenticatedMemoriaRoute
   '/notificacoes': typeof AuthenticatedNotificacoesRoute
   '/perfil': typeof AuthenticatedPerfilRoute
+  '/problemas': typeof AuthenticatedProblemasRoute
   '/solicitacoes': typeof AuthenticatedSolicitacoesRoute
   '/voluntarias': typeof AuthenticatedVoluntariasRoute
+  '/voos': typeof AuthenticatedVoosRoute
   '/agenda/$eventId': typeof AuthenticatedAgendaEventIdRoute
   '/tarefas/$taskId': typeof AuthenticatedTarefasTaskIdRoute
   '/testes/$testId': typeof AuthenticatedTestesTestIdRoute
@@ -162,12 +190,16 @@ export interface FileRoutesByTo {
   '/admin': typeof AuthenticatedAdminRoute
   '/aeronave': typeof AuthenticatedAeronaveRoute
   '/assiduidade': typeof AuthenticatedAssiduidadeRoute
+  '/fabricacao': typeof AuthenticatedFabricacaoRoute
   '/inicio': typeof AuthenticatedInicioRoute
   '/integrantes': typeof AuthenticatedIntegrantesRoute
+  '/memoria': typeof AuthenticatedMemoriaRoute
   '/notificacoes': typeof AuthenticatedNotificacoesRoute
   '/perfil': typeof AuthenticatedPerfilRoute
+  '/problemas': typeof AuthenticatedProblemasRoute
   '/solicitacoes': typeof AuthenticatedSolicitacoesRoute
   '/voluntarias': typeof AuthenticatedVoluntariasRoute
+  '/voos': typeof AuthenticatedVoosRoute
   '/agenda/$eventId': typeof AuthenticatedAgendaEventIdRoute
   '/tarefas/$taskId': typeof AuthenticatedTarefasTaskIdRoute
   '/testes/$testId': typeof AuthenticatedTestesTestIdRoute
@@ -184,12 +216,16 @@ export interface FileRoutesById {
   '/_authenticated/admin': typeof AuthenticatedAdminRoute
   '/_authenticated/aeronave': typeof AuthenticatedAeronaveRoute
   '/_authenticated/assiduidade': typeof AuthenticatedAssiduidadeRoute
+  '/_authenticated/fabricacao': typeof AuthenticatedFabricacaoRoute
   '/_authenticated/inicio': typeof AuthenticatedInicioRoute
   '/_authenticated/integrantes': typeof AuthenticatedIntegrantesRoute
+  '/_authenticated/memoria': typeof AuthenticatedMemoriaRoute
   '/_authenticated/notificacoes': typeof AuthenticatedNotificacoesRoute
   '/_authenticated/perfil': typeof AuthenticatedPerfilRoute
+  '/_authenticated/problemas': typeof AuthenticatedProblemasRoute
   '/_authenticated/solicitacoes': typeof AuthenticatedSolicitacoesRoute
   '/_authenticated/voluntarias': typeof AuthenticatedVoluntariasRoute
+  '/_authenticated/voos': typeof AuthenticatedVoosRoute
   '/_authenticated/agenda/$eventId': typeof AuthenticatedAgendaEventIdRoute
   '/_authenticated/tarefas/$taskId': typeof AuthenticatedTarefasTaskIdRoute
   '/_authenticated/testes/$testId': typeof AuthenticatedTestesTestIdRoute
@@ -206,12 +242,16 @@ export interface FileRouteTypes {
     | '/admin'
     | '/aeronave'
     | '/assiduidade'
+    | '/fabricacao'
     | '/inicio'
     | '/integrantes'
+    | '/memoria'
     | '/notificacoes'
     | '/perfil'
+    | '/problemas'
     | '/solicitacoes'
     | '/voluntarias'
+    | '/voos'
     | '/agenda/$eventId'
     | '/tarefas/$taskId'
     | '/testes/$testId'
@@ -226,12 +266,16 @@ export interface FileRouteTypes {
     | '/admin'
     | '/aeronave'
     | '/assiduidade'
+    | '/fabricacao'
     | '/inicio'
     | '/integrantes'
+    | '/memoria'
     | '/notificacoes'
     | '/perfil'
+    | '/problemas'
     | '/solicitacoes'
     | '/voluntarias'
+    | '/voos'
     | '/agenda/$eventId'
     | '/tarefas/$taskId'
     | '/testes/$testId'
@@ -247,12 +291,16 @@ export interface FileRouteTypes {
     | '/_authenticated/admin'
     | '/_authenticated/aeronave'
     | '/_authenticated/assiduidade'
+    | '/_authenticated/fabricacao'
     | '/_authenticated/inicio'
     | '/_authenticated/integrantes'
+    | '/_authenticated/memoria'
     | '/_authenticated/notificacoes'
     | '/_authenticated/perfil'
+    | '/_authenticated/problemas'
     | '/_authenticated/solicitacoes'
     | '/_authenticated/voluntarias'
+    | '/_authenticated/voos'
     | '/_authenticated/agenda/$eventId'
     | '/_authenticated/tarefas/$taskId'
     | '/_authenticated/testes/$testId'
@@ -319,6 +367,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAssiduidadeRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/fabricacao': {
+      id: '/_authenticated/fabricacao'
+      path: '/fabricacao'
+      fullPath: '/fabricacao'
+      preLoaderRoute: typeof AuthenticatedFabricacaoRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/inicio': {
       id: '/_authenticated/inicio'
       path: '/inicio'
@@ -331,6 +386,13 @@ declare module '@tanstack/react-router' {
       path: '/integrantes'
       fullPath: '/integrantes'
       preLoaderRoute: typeof AuthenticatedIntegrantesRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/memoria': {
+      id: '/_authenticated/memoria'
+      path: '/memoria'
+      fullPath: '/memoria'
+      preLoaderRoute: typeof AuthenticatedMemoriaRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/notificacoes': {
@@ -347,6 +409,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedPerfilRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/problemas': {
+      id: '/_authenticated/problemas'
+      path: '/problemas'
+      fullPath: '/problemas'
+      preLoaderRoute: typeof AuthenticatedProblemasRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/solicitacoes': {
       id: '/_authenticated/solicitacoes'
       path: '/solicitacoes'
@@ -359,6 +428,13 @@ declare module '@tanstack/react-router' {
       path: '/voluntarias'
       fullPath: '/voluntarias'
       preLoaderRoute: typeof AuthenticatedVoluntariasRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/voos': {
+      id: '/_authenticated/voos'
+      path: '/voos'
+      fullPath: '/voos'
+      preLoaderRoute: typeof AuthenticatedVoosRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/agenda/': {
@@ -410,12 +486,16 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedAdminRoute: typeof AuthenticatedAdminRoute
   AuthenticatedAeronaveRoute: typeof AuthenticatedAeronaveRoute
   AuthenticatedAssiduidadeRoute: typeof AuthenticatedAssiduidadeRoute
+  AuthenticatedFabricacaoRoute: typeof AuthenticatedFabricacaoRoute
   AuthenticatedInicioRoute: typeof AuthenticatedInicioRoute
   AuthenticatedIntegrantesRoute: typeof AuthenticatedIntegrantesRoute
+  AuthenticatedMemoriaRoute: typeof AuthenticatedMemoriaRoute
   AuthenticatedNotificacoesRoute: typeof AuthenticatedNotificacoesRoute
   AuthenticatedPerfilRoute: typeof AuthenticatedPerfilRoute
+  AuthenticatedProblemasRoute: typeof AuthenticatedProblemasRoute
   AuthenticatedSolicitacoesRoute: typeof AuthenticatedSolicitacoesRoute
   AuthenticatedVoluntariasRoute: typeof AuthenticatedVoluntariasRoute
+  AuthenticatedVoosRoute: typeof AuthenticatedVoosRoute
   AuthenticatedAgendaEventIdRoute: typeof AuthenticatedAgendaEventIdRoute
   AuthenticatedTarefasTaskIdRoute: typeof AuthenticatedTarefasTaskIdRoute
   AuthenticatedTestesTestIdRoute: typeof AuthenticatedTestesTestIdRoute
@@ -428,12 +508,16 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAdminRoute: AuthenticatedAdminRoute,
   AuthenticatedAeronaveRoute: AuthenticatedAeronaveRoute,
   AuthenticatedAssiduidadeRoute: AuthenticatedAssiduidadeRoute,
+  AuthenticatedFabricacaoRoute: AuthenticatedFabricacaoRoute,
   AuthenticatedInicioRoute: AuthenticatedInicioRoute,
   AuthenticatedIntegrantesRoute: AuthenticatedIntegrantesRoute,
+  AuthenticatedMemoriaRoute: AuthenticatedMemoriaRoute,
   AuthenticatedNotificacoesRoute: AuthenticatedNotificacoesRoute,
   AuthenticatedPerfilRoute: AuthenticatedPerfilRoute,
+  AuthenticatedProblemasRoute: AuthenticatedProblemasRoute,
   AuthenticatedSolicitacoesRoute: AuthenticatedSolicitacoesRoute,
   AuthenticatedVoluntariasRoute: AuthenticatedVoluntariasRoute,
+  AuthenticatedVoosRoute: AuthenticatedVoosRoute,
   AuthenticatedAgendaEventIdRoute: AuthenticatedAgendaEventIdRoute,
   AuthenticatedTarefasTaskIdRoute: AuthenticatedTarefasTaskIdRoute,
   AuthenticatedTestesTestIdRoute: AuthenticatedTestesTestIdRoute,
