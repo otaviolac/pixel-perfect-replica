@@ -14,6 +14,7 @@ import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
+import { Route as AuthenticatedAeronaveRouteImport } from './routes/_authenticated/aeronave'
 import { Route as AuthenticatedAssiduidadeRouteImport } from './routes/_authenticated/assiduidade'
 import { Route as AuthenticatedInicioRouteImport } from './routes/_authenticated/inicio'
 import { Route as AuthenticatedIntegrantesRouteImport } from './routes/_authenticated/integrantes'
@@ -50,6 +51,11 @@ const ResetPasswordRoute = ResetPasswordRouteImport.update({
 const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
   id: '/admin',
   path: '/admin',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedAeronaveRoute = AuthenticatedAeronaveRouteImport.update({
+  id: '/aeronave',
+  path: '/aeronave',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedAssiduidadeRoute =
@@ -134,6 +140,7 @@ export interface FileRoutesByFullPath {
   '/auth': typeof AuthRoute
   '/reset-password': typeof ResetPasswordRoute
   '/admin': typeof AuthenticatedAdminRoute
+  '/aeronave': typeof AuthenticatedAeronaveRoute
   '/assiduidade': typeof AuthenticatedAssiduidadeRoute
   '/inicio': typeof AuthenticatedInicioRoute
   '/integrantes': typeof AuthenticatedIntegrantesRoute
@@ -153,6 +160,7 @@ export interface FileRoutesByTo {
   '/auth': typeof AuthRoute
   '/reset-password': typeof ResetPasswordRoute
   '/admin': typeof AuthenticatedAdminRoute
+  '/aeronave': typeof AuthenticatedAeronaveRoute
   '/assiduidade': typeof AuthenticatedAssiduidadeRoute
   '/inicio': typeof AuthenticatedInicioRoute
   '/integrantes': typeof AuthenticatedIntegrantesRoute
@@ -174,6 +182,7 @@ export interface FileRoutesById {
   '/auth': typeof AuthRoute
   '/reset-password': typeof ResetPasswordRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRoute
+  '/_authenticated/aeronave': typeof AuthenticatedAeronaveRoute
   '/_authenticated/assiduidade': typeof AuthenticatedAssiduidadeRoute
   '/_authenticated/inicio': typeof AuthenticatedInicioRoute
   '/_authenticated/integrantes': typeof AuthenticatedIntegrantesRoute
@@ -195,6 +204,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/reset-password'
     | '/admin'
+    | '/aeronave'
     | '/assiduidade'
     | '/inicio'
     | '/integrantes'
@@ -214,6 +224,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/reset-password'
     | '/admin'
+    | '/aeronave'
     | '/assiduidade'
     | '/inicio'
     | '/integrantes'
@@ -234,6 +245,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/reset-password'
     | '/_authenticated/admin'
+    | '/_authenticated/aeronave'
     | '/_authenticated/assiduidade'
     | '/_authenticated/inicio'
     | '/_authenticated/integrantes'
@@ -291,6 +303,13 @@ declare module '@tanstack/react-router' {
       path: '/admin'
       fullPath: '/admin'
       preLoaderRoute: typeof AuthenticatedAdminRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/aeronave': {
+      id: '/_authenticated/aeronave'
+      path: '/aeronave'
+      fullPath: '/aeronave'
+      preLoaderRoute: typeof AuthenticatedAeronaveRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/assiduidade': {
@@ -389,6 +408,7 @@ declare module '@tanstack/react-router' {
 
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedAdminRoute: typeof AuthenticatedAdminRoute
+  AuthenticatedAeronaveRoute: typeof AuthenticatedAeronaveRoute
   AuthenticatedAssiduidadeRoute: typeof AuthenticatedAssiduidadeRoute
   AuthenticatedInicioRoute: typeof AuthenticatedInicioRoute
   AuthenticatedIntegrantesRoute: typeof AuthenticatedIntegrantesRoute
@@ -406,6 +426,7 @@ interface AuthenticatedRouteRouteChildren {
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAdminRoute: AuthenticatedAdminRoute,
+  AuthenticatedAeronaveRoute: AuthenticatedAeronaveRoute,
   AuthenticatedAssiduidadeRoute: AuthenticatedAssiduidadeRoute,
   AuthenticatedInicioRoute: AuthenticatedInicioRoute,
   AuthenticatedIntegrantesRoute: AuthenticatedIntegrantesRoute,

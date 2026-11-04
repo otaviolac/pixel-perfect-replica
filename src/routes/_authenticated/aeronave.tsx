@@ -3,6 +3,7 @@ import { useQuery, useSuspenseQuery } from '@tanstack/react-query';
 import { useState } from 'react';
 import { Plane } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
+import type { Tables } from '@/integrations/supabase/types';
 import { aircraftQuery, paramHistoryQuery, useTechSave, blank } from '@/lib/technical';
 import { AIRCRAFT_CATEGORY, VALUE_ORIGIN, canEditAircraft, parameterValue } from '@/lib/technical-rules';
 import { meQuery, membersQuery } from '@/lib/me';
@@ -49,7 +50,7 @@ function AircraftPage() {
   </div>;
 }
 
-function ParamRow({ p, edit, names }: { p: ReturnType<typeof useSuspenseQuery<Awaited<ReturnType<typeof aircraftQuery.queryFn>>>>['data']['params'][number]; edit: boolean; names: Map<string, string> }) {
+function ParamRow({ p, edit, names }: { p: Tables<'aircraft_parameters'>; edit: boolean; names: Map<string, string> }) {
   const [editing, setEditing] = useState(false); const [hist, setHist] = useState(false); const save = useTechSave();
   const { data: history = [] } = useQuery({ ...paramHistoryQuery(p.id), enabled: hist });
   const pending = parameterValue({ value: p.value === null ? null : Number(p.value), text_value: p.text_value, unit: p.unit });
