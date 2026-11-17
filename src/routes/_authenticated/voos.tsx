@@ -5,7 +5,8 @@ import { supabase } from '@/integrations/supabase/client';
 import { flightsQuery, aircraftQuery, useTechSave, blank } from '@/lib/technical';
 import { managesSector } from '@/lib/technical-rules';
 import { meQuery, membersQuery, sectorsQuery } from '@/lib/me';
-import { pageHead, fmtDateTime, spLocalToISO } from '@/lib/format';
+import { pageHead } from '@/lib/tasks';
+import { fmtDateTime, spLocalToISO } from '@/lib/format';
 import { Field, Pick, FormToggle, Empty, Info, TechHistory } from '@/components/TechUI';
 
 export const Route = createFileRoute('/_authenticated/voos')({

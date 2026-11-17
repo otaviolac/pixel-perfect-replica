@@ -13,7 +13,7 @@ export function Field({ label, name, type = 'text', required, defaultValue, area
       : <input name={name} type={type} step={step} required={required} defaultValue={defaultValue ?? ''} className={base} />}</label>;
 }
 
-export function Pick({ label, name, options, required, defaultValue, empty }: { label: string; name: string; options: [string, string][]; required?: boolean; defaultValue?: string | number | null; empty?: string }) {
+export function Pick({ label, name, options, required, defaultValue, empty }: { label: string; name: string; options: [string, string][]; required?: boolean; defaultValue?: string | number | null | undefined; empty?: string }) {
   return <label className="block space-y-1 text-sm"><span className="font-medium">{label}{required && ' *'}</span>
     <select name={name} required={required} defaultValue={defaultValue == null ? '' : String(defaultValue)} className={base}>
       {(empty !== undefined || !required) && <option value="">{empty ?? '—'}</option>}
@@ -34,7 +34,7 @@ export function FormToggle({ label, children, onSubmit, pending }: { label: stri
 
 export function Empty({ children }: { children: ReactNode }) { return <p className="border-y py-10 text-center text-sm text-muted-foreground">{children}</p>; }
 
-export function Info({ label, value }: { label: string; value?: string | null }) {
+export function Info({ label, value }: { label: string; value?: string | null | undefined }) {
   if (!value?.toString().trim()) return null;
   return <p className="text-sm"><span className="text-muted-foreground">{label}: </span><span className="whitespace-pre-wrap">{value}</span></p>;
 }

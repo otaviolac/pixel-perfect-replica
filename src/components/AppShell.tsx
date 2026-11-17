@@ -1,7 +1,7 @@
 import { Link, Outlet, useNavigate } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
-import { Home, Users, User, Shield, LogOut, Plane, Menu, X, ListChecks, HeartHandshake, Inbox, Bell, CalendarDays, ClipboardCheck, FlaskConical } from "lucide-react";
+import { Home, Users, User, Shield, LogOut, Plane, Menu, X, ListChecks, HeartHandshake, Inbox, Bell, CalendarDays, ClipboardCheck, FlaskConical, NotebookPen, Hammer, AlertTriangle, BookOpen } from "lucide-react";
 import { flagsQuery, notificationsQuery } from '@/lib/tasks';
 import { supabase } from "@/integrations/supabase/client";
 import { useMe } from "@/lib/me";
@@ -13,6 +13,11 @@ const NAV = [
   { to: "/agenda", label: "Agenda da equipe", icon: CalendarDays },
   { to: "/assiduidade", label: "Assiduidade", icon: ClipboardCheck },
   { to: "/testes", label: "Testes e ensaios", icon: FlaskConical },
+  { to: "/aeronave", label: "Dados da aeronave", icon: Plane },
+  { to: "/voos", label: "Diário de Voo", icon: NotebookPen },
+  { to: "/fabricacao", label: "Fabricação", icon: Hammer },
+  { to: "/problemas", label: "Problemas", icon: AlertTriangle },
+  { to: "/memoria", label: "Memória e formação", icon: BookOpen },
   { to: "/tarefas", label: "Tarefas oficiais", icon: ListChecks },
   { to: "/voluntarias", label: "Voluntárias", icon: HeartHandshake },
   { to: "/solicitacoes", label: "Solicitações", icon: Inbox },
@@ -20,6 +25,8 @@ const NAV = [
   { to: "/integrantes", label: "Integrantes", icon: Users },
   { to: "/perfil", label: "Meu perfil", icon: User },
 ] as const;
+
+const FLAG: Record<string, string> = { '/tarefas': 'tarefas', '/voluntarias': 'voluntarias', '/agenda': 'agenda', '/testes': 'testes', '/aeronave': 'aeronave', '/voos': 'diario_voo', '/fabricacao': 'fabricacao', '/problemas': 'problemas', '/memoria': 'memoria' };
 
 export function AppShell() {
   const { data: me, isLoading } = useMe();
@@ -50,7 +57,7 @@ export function AppShell() {
 
   const nav = (
     <nav className="flex flex-1 flex-col gap-1">
-      {NAV.filter(n => !['/tarefas','/voluntarias','/agenda','/testes'].includes(n.to) || flags.some(f => f.key === (n.to === '/tarefas' ? 'tarefas' : n.to === '/voluntarias' ? 'voluntarias' : n.to === '/testes' ? 'testes' : 'agenda') && f.enabled)).map(({ to, label, icon: Icon }) => (
+      {NAV.filter(n => { const key = FLAG[n.to]; return !key || flags.some(f => f.key === key && f.enabled); }).map(({ to, label, icon: Icon }) => (
         <Link key={to} to={to} onClick={() => setOpen(false)}
           className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm text-sidebar-foreground/80 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
           activeProps={{ className: "bg-sidebar-accent text-sidebar-accent-foreground" }}>

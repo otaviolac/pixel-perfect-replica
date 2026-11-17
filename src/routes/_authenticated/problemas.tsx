@@ -6,7 +6,8 @@ import { supabase } from '@/integrations/supabase/client';
 import { problemsQuery, useTechSave, blank } from '@/lib/technical';
 import { PROBLEM_STATUS, CRITICALITY, PROBLEM_SCOPE, managesSector, closureMissing } from '@/lib/technical-rules';
 import { meQuery, membersQuery, sectorsQuery } from '@/lib/me';
-import { pageHead, fmtDate } from '@/lib/format';
+import { pageHead } from '@/lib/tasks';
+import { fmtDate } from '@/lib/format';
 import { Field, Pick, FormToggle, Empty, Info, TechHistory } from '@/components/TechUI';
 import { toast } from 'sonner';
 

@@ -7,7 +7,8 @@ import type { Tables } from '@/integrations/supabase/types';
 import { aircraftQuery, paramHistoryQuery, useTechSave, blank } from '@/lib/technical';
 import { AIRCRAFT_CATEGORY, VALUE_ORIGIN, canEditAircraft, parameterValue } from '@/lib/technical-rules';
 import { meQuery, membersQuery } from '@/lib/me';
-import { pageHead, fmtDateTime } from '@/lib/format';
+import { pageHead } from '@/lib/tasks';
+import { fmtDateTime } from '@/lib/format';
 import { Field, Pick, FormToggle, Empty } from '@/components/TechUI';
 
 export const Route = createFileRoute('/_authenticated/aeronave')({
